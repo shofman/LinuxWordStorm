@@ -1,0 +1,15 @@
+Need to do error checking for the twitter URL (valid user/valid URL/enough data)
+Need alternate methods of finding information (i.e. TED transcripts, blog, pdf scrapper)
+Need to check if the code works with limited information
+Need to add delay for timer so that the rate-limiting behavior doesn't kick into effect
+
+Need to test with a single file
+Need to ensure that users cannot create a wordstorm without a certain amount of files
+Need to add some method of showing that the wordstorm is loading
+Need to add a method to showcase an error
+
+Need to attempt a distance metric
+Need to move words based on user input
+
+Need to add to each WordCram file the changes that I have made (for license)
+Need to look at the TODO within resetWordCram() in the WordStorm java file. 

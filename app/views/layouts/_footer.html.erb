@@ -1,0 +1,14 @@
+<footer class="footer">
+  <small>
+	Quim Castella and Scott Hofman
+  </small>
+  <nav>
+    <ul>
+	  <% if not session[:user_id] %>
+		<li><%= link_to "New User? Sign up here", '/signup'  %></li>
+	  <% end %>
+      <li><%= link_to "About",   '#' %></li>
+      <li><%= link_to "Contact", '#' %></li>
+    </ul>
+  </nav>
+</footer>

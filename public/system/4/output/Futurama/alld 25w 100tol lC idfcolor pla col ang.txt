@@ -1,0 +1,6 @@
+3 word clouds
+alld 25w 100tol lC idfcolor pla col ang
+width 640, height 480
+
+non-converged, 0, mds, 0.018265323244683995
+6308 ms (0 min 6 sec)

@@ -1,0 +1,15 @@
+<h2 class='User_Header'> <%=@current_user.username%> Profile <h2>
+<br>
+<h6 style = "text-align:center">Settings </h6>
+<br>Case <%= @current_user.settings.lcase %>
+<br>TfIdf <%= @current_user.settings.tfidf %>
+<br>Algorithm <%= @current_user.settings.algo %>
+<br>Tolerance <%= @current_user.settings.tolerance%>
+<br>Iterations <%= @current_user.settings.iterations %>
+<br>Max Words <%= @current_user.settings.maxwords%>
+<br>Color <%= @current_user.settings.color %>
+<br>Angle <%= @current_user.settings.angle %>
+<br>Scale <%= @current_user.settings.scale %>
+<br>Font <%= @current_user.settings.font %>
+<br>
+<br><%= link_to "Create word storm!", '/upload', class: "btn btn-medium btn-primary"%> 

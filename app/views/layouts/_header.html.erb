@@ -1,0 +1,25 @@
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container" id="navbar">
+      <%= link_to "wordstorm", '/home', id: "logo" %>
+      <nav>
+        <ul class="nav pull-right">
+          <li><%= link_to "Home",    '/home' %></li>
+          <li><%= link_to "Help",    '/help' %></li>
+		  <% if session[:user_id] %>
+			<li><%= link_to "Profile", '/profile' %></li>
+			<li><%= link_to "Logout", '/logout' %><li>
+		  <% else %>
+			<li><%= link_to "Login", '/login' %></li>
+		  <% end %>
+        </ul>
+      </nav>
+    </div>
+  </div>
+    <% if flash[:notice] %>
+    <div class="notice"><%= flash[:notice] %></div>
+  <% end %>
+  <% if flash[:error] %>
+    <div class="notice"><%= flash[:error] %></div>
+  <% end %>
+</header>
