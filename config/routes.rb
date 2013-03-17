@@ -1,5 +1,9 @@
 JqueryFileuploadRailsExample::Application.routes.draw do
 
+  get "gallery/view"
+
+  get "gallery/edit"
+
   resources :uploads
   match ':controller(/:action(/:id))(.:format)'
   root :to => 'static_pages#home'

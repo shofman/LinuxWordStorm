@@ -43,10 +43,35 @@
 	num = "<%= @files.count %>"
 	for (var i=0;i<num;i++) { 
 		$("#draggable"+i).draggable( 
-			{ snap: true, distance: 50, containment: "#containment-wrapper", scroll: false });
+			{ snap: true, distance: 20, containment: "#containment-wrapper", scroll: false }	
+		);
+
 	}
 	});
   </script>
+  <script>
+	$(function() {
+		$('#formsubmit').click(function() {
+			//$('#formsubmit').submit();
+			for (var i=0;i<num;i++) { 
+				$("#Left"+i).val($("#draggable"+i).position().left);
+				$("#Top"+i).val($("#draggable"+i).position().top);
+				//alert($("#draggable"+i).position().left);	
+				//alert($("#Top"+i).val);
+			}
+			alert("Works");
+		});
+	});
+	  			//$("amount").val(num);
+			//for (var i=0;i<num;i++) { 
+				//$(i+"top").val($("#draggable"+i).position().top);
+				//$(i+"left").val($("#draggable"+i).position().left);
+				//$(i+"left").submit;
+				//$(i+"top").submit;
+				//alert($("#draggable"+i).position().left);	
+			//}
+  </script>
+
 <% end -%>
 
 <!--
@@ -60,14 +85,32 @@
 		120
 -->
 <div class="section" style = "width: 120%">
-<h2 style = "float:left">WordStorm:</h2>
-<%= button_to "Save storm", '/create', class: "buttonTest", :id => "submit", :style => "float:right", :remote => true %> 
+
+<%= form_for(:wordstorm, :html => { :id => 'formsubmit' }, :style => {:display => 'inline-block'}, :url => {:controller => 'sessions', :action => 'profile'}) do |f| %>
+	<h2 style = "float:left">
+	<span>WordStorm:</span>
+	<span><%= f.text_field(:name) %></span>
+	<input type="hidden" name="num" value="<%= @files.size%>">
+	<% @files.each_with_index do |file, i| %>
+		<input type="hidden" name="Left<%=i%>" id = "Left<%=i%>" value="0">
+		<input type="hidden" name="Top<%=i%>" id = "Top<%=i%>" value="0">
+	<% end %>
+	<% f.fields_for :images do |image| %>
+      	<span><%= f.text_field(:images) %></span>
+    <% end %>
+	<span><%= f.submit %></span>
+	</h2>
+<% end %>
+
+
+<%= link_to "Save storm", '/profile', class: "buttonTest", :id => "submit", :style => "float:right" %> 
+<%=link_to "Link text", '/profile', wordstorm: @wordstorm.name, :method => :post, :style => "float:right" %> 
 
 </div>
- <br>
- <h5><% @temp %></h5>
 <br>
-
+<h2><%= @wordstorm.name %></h2>
+<br>
+<br>
 
 <div id="containment-wrapper">
 	<div class="imageRow">

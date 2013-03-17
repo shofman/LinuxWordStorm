@@ -32,12 +32,7 @@
 				<span class="btn btn-success fileinput-button">
 				  <i class="icon-plus icon-white"></i>
 				  <span>Add files...</span>
-				  <%= f.file_field :upload %>
-				</span>
-				<span class="btn btn-danger fileinput-button">
-				  <i class="icon-plus icon-white"></i>
-				  <span>Add directory</span>
-				  <%= f.file_field :upload %>
+				  <%= f.file_field(:upload, :accept => '.txt')%>
 				</span>
 				<button type="submit" class="btn btn-primary start">
 				  <i class="icon-upload icon-white"></i>
@@ -71,7 +66,9 @@
 		</div>
 	</div>
 	<div>
+		 
 		 <%= link_to "Generate word storm!", '/create', class: "btn btn-medium btn-primary", :id => "submit" %> 
+		 
 	</div>
   </div>
 
@@ -134,13 +131,16 @@
 <script>
 $(function() {
   $('#submit').click(function() {
-    $('#formsubmit').submit();
+		//alert("This may take some time. Please be patient.");
+		$('#formsubmit').submit();
+	
   });
 });
 </script>
 
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">
+ 
   {% for (var i=0, file; file=o.files[i]; i++) { %}
   <tr class="template-upload fade">
     <td class="preview"><span class="fade"></span></td>

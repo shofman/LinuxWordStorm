@@ -1,7 +1,7 @@
 module ControllerModule
   def setdefaults(user)
 	h1 =  {'lcase' => 'Regular Case', 'tfidf' => 'Idf', 'algo' => 'Combined', 'tolerance' => 50,'iterations' => 5, 'maxwords' => 15, 'color' => 1, 'angle' => 1, 'scale' => 1, 'font' => 'ChunkFive'}
-	user.settings.lcase = nil
+	user.settings.lcase = h1['lcase']
 	user.settings.tfidf = h1['tfidf']
 	user.settings.algo = h1['algo']
 	user.settings.tolerance = h1['tolerance']

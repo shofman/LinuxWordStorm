@@ -8,11 +8,13 @@ class SessionsController < ApplicationController
 
 	def profile
 		@user = User.find(session[:user_id])
+		@name = @user.word_storms.last.name
 	end
 
 	def setting
 		#Setting Page
 	end
+	
 	
 	def save 
 	#TODO: Needs to have a check here that the values cannot be greater than a certain value
