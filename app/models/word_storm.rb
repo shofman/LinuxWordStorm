@@ -1,5 +1,5 @@
 class WordStorm < ActiveRecord::Base
-  attr_accessible :cloud_id, :name, :user_id, :file_location
+  attr_accessible :cloud_id, :name, :user_id, :file_location, :size
   
   has_many :images, :dependent => :destroy
   belongs_to :user

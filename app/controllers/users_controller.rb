@@ -6,14 +6,14 @@ class UsersController < ApplicationController
 	@user = User.new
   end
   def create
+	puts params
 	@user = User.new(params[:user])
 	setdefaults(@user)
 	@user.storm_num = 0
 	if @user.save
-		
 		flash[:notice] = "You just signed up"
 		flash[:color] = "valid"
-		redirect_to(:root)
+		redirect_to "/login"
 	else
 		flash[:notice] = "Form is invalid"
 		flash[:color] = "invalid"

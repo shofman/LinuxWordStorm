@@ -8,7 +8,6 @@ class SessionsController < ApplicationController
 
 	def profile
 		@user = User.find(session[:user_id])
-		@name = @user.word_storms.last.name
 		@lcase = @user.settings.lcase
 		@tfidf = @user.settings.tfidf
 		@algo = @user.settings.algo

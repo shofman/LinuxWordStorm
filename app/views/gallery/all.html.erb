@@ -6,10 +6,10 @@
   <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
   <link rel="stylesheet" href="/resources/demos/style.css" />
   <style>
-  .draggable { width: 160px; height: 120px; padding: 0.5em; float: left; margin: 0 10px 10px 0; }
+  .draggable { width: <%= @storm.size %>px; height: <%= Integer(@storm.size * 0.75)%>px; padding: 0.5em; float: left; margin: 0 10px 10px 0; }
   #draggable, #draggable2 { margin-bottom:20px; }
   #navbar {margin-left: auto; margin-right: auto; }
-  #containment-wrapper { width: 120%; height:2000px; border:2px solid #ccc; padding: 10px; }
+  #containment-wrapper { width: <%= @storm.size %>%; height:2000px; border:2px solid #ccc; padding: 10px; }
   #main_container {margin-left: 100px; margin-right: 100px; }
   </style>
   
