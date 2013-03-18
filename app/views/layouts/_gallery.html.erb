@@ -18,10 +18,22 @@
 	num = "<%= @files.count %>"
 	for (var i=0;i<num;i++) { 
 		$("#draggable"+i).draggable( 
-			{'disable', snap: true, distance: 20, containment: "#containment-wrapper", scroll: false }	
+			{snap: true, distance: 20, containment: "#containment-wrapper", scroll: false }	
 		);
 	}
 	});
   </script>
 
 <% end -%>
+
+<div style = "float:left" id="containment-wrapper">		
+		<div id = "imageRow" class="imageRow">
+				<% @files.each_with_index do |file, i| %>
+					<a href= "/../assets/<%= file.to_s.html_safe %>" rel="lightbox">
+						<%= image_tag("#{file.to_s.html_safe}", :id => "draggable"+i.to_s, :class => "draggable ui-widget-content", :style => "position: absolute; top: #{@storm.images[i].pos_y}px; left: #{@storm.images[i].pos_x}px;") %>
+					</a>
+				<% end %>
+		</div>
+</div>
+
+<%= javascript_include_tag "lightbox" %>

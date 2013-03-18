@@ -1,8 +1,8 @@
 require 'controller_module'
 class StaticPagesController < ApplicationController
   	include ControllerModule
-	before_filter :authenticate_user
-	before_filter :find_user
+	before_filter :authenticate_user, :except => :home
+	before_filter :find_user, :except => :home
 	
   def home
   end
@@ -11,7 +11,6 @@ class StaticPagesController < ApplicationController
   end
   
   def create  
-	@user = User.find(session[:user_id])
 	@allsettings = @user.settings.all
 	@allsettings.each_key do |key|
 		if @allsettings[key].blank? 
@@ -19,8 +18,6 @@ class StaticPagesController < ApplicationController
 		end
 	end
   
-	
-	puts "Settings #{@allsettings}"
 	@image_root = Rails.root.join('app', 'assets', 'images')
 	Dir.mkdir(@image_test) unless File.exists?(@image_root)
 	@output_folder = Rails.root.join('app', 'assets', 'images', "#{@user.id}", "#{@user.storm_num}")

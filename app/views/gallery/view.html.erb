@@ -37,8 +37,14 @@
 		120
 -->
 <div class="section" style = "width: 120%">
-	<h2 style = "float:left">
+	<h2 style = "float:left; height:0px;">
 	<span>WordStorm:  </span><span><%= @storm.name %></span>
+	</h2>
+	<h2 style = "float:right; height:0px;">
+	<span><%= link_to "Edit ", {:controller => 'gallery', :action => 'edit', :stormedit => @curr_storm_id}, {:style => "float:right;"}%></span>
+	<% if @storm.user_id == @user.id %>
+	<span><%= link_to " Share ", {:controller => 'gallery', :action => 'edit', :stormedit => @curr_storm_id}, {:style => "float:right;"}%></span>
+	<% end %>
 	</h2>
 </div>
 <br>
