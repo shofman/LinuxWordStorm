@@ -4,8 +4,6 @@ Need to check if the code works with limited information
 Need to add delay for timer so that the rate-limiting behavior doesn't kick into effect
 
 Need to test with a single file
-Need to ensure that users cannot create a wordstorm without a certain amount of files
-Need to add some method of showing that the wordstorm is loading
 Need to add a method to showcase an error
 
 Need to attempt a distance metric

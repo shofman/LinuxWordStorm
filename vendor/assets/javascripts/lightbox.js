@@ -94,7 +94,7 @@ lightbox = new Lightbox options
       }).append($('<div/>', {
         "class": 'lb-container'
       }).append($('<img/>', {
-        "class": 'lb-image'
+        "class": 'lb-image', "id": 'lightboxImage'
       }), $('<div/>', {
         "class": 'lb-nav'
       }).append($('<a/>', {
@@ -144,6 +144,9 @@ lightbox = new Lightbox options
       $lightbox.find('.lb-next').on('click', function(e) {
         _this.changeImage(_this.currentImageIndex + 1);
         return false;
+      });
+	  $lightbox.find('.lb-container').on('click', function(e) {
+        return _this;
       });
       $lightbox.find('.lb-loader, .lb-close').on('click', function(e) {
         _this.end();

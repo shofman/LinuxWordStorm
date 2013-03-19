@@ -8,8 +8,12 @@
           <li><%= link_to "Help",    '/help' %></li>
 		  <% if session[:user_id] %>
 			<li><%= link_to "Profile", '/profile' %></li>
+			<li><%= link_to "Generate", '/upload' %></li>
+			<li><%= link_to "My Storms", '/gallery/view' %></li>
+			<li><%= link_to "Gallery", '/gallery/all' %></li>
 			<li><%= link_to "Logout", '/logout' %><li>
 		  <% else %>
+			<li><%= link_to "Gallery", '/gallery/all' %></li>
 			<li><%= link_to "Login", '/login' %></li>
 		  <% end %>
         </ul>

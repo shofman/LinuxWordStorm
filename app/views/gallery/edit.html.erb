@@ -34,23 +34,12 @@
 		});
 	});
   </script>
-   <script>
-	$(function() {
-		$('#increase').click(function() {
-			for (var i=0;i<num;i++) { 
-				$("#Left"+i).val($("#draggable"+i).position().left);
-				$("#Top"+i).val($("#draggable"+i).position().top);
-			}
-			$('#formsubmit').submit;
-		});
-	});
-  </script>
-
+ 
 <% end -%>
 
 <div class="section" style = "width: 120%">
 
-<%= form_for(:wordstorm, :html => { :id => 'formsubmit' }, :style => {:display => 'inline-block'}, :url => {:controller => 'gallery', :action => 'view'}, :remote => :true) do |f| %>
+<%= form_for(:wordstorm, :html => { :id => 'formsubmit' }, :style => {:display => 'inline-block'}, :url => {:controller => 'gallery', :action => 'view'}) do |f| %>
 	<h2 style = "float:left; height:20px">
 	<span>WordStorm: </span>
 	<span><%= f.text_field(:name) %></span>
@@ -85,3 +74,13 @@
 </div>
 
 <%= javascript_include_tag "lightbox" %>
+ <script>
+	$(function() {
+		$lightbox = $('#lightbox');
+		$lightbox.find('.lb-container').on('click', function(e) {
+			alert([e.pageX - $('.lb-outerContainer').offset().left, e.pageY - $('.lb-outerContainer').offset().top]);
+			return false;
+      });
+	});
+  
+  </script>
