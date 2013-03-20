@@ -66,21 +66,99 @@
 <div id="containment-wrapper">
 	<div class="imageRow">
 			<% @files.each_with_index do |file, i| %>
-				<a href= "/../assets/<%= file.to_s.html_safe %>" rel="lightbox">
+				<a href= "/../assets/<%= file.to_s.html_safe %>", class = "image", rel="lightbox", title="<%= @wordstorm.images[i].name%>">
 					<%= image_tag("#{file.to_s.html_safe}", :id => "draggable"+i.to_s, :class => "draggable ui-widget-content", :style => "position: absolute; top: #{@wordstorm.images[i].pos_y}px; left: #{@wordstorm.images[i].pos_x}px;") %>
 				</a>
 			<% end %>
 	</div>
 </div>
 
+<%= form_for(:wordstorm, :html => { :id => 'movesubmit' }, :url => {:controller => 'gallery', :action => 'move'}) do |f| %>
+	<input type="hidden" name="fClickX" id = "fClickX" value="0">
+	<input type="hidden" name="fClickY" id = "fClickY" value="0">
+	<input type="hidden" name="sClickX" id = "sClickX" value="0">
+	<input type="hidden" name="sClickY" id = "sClickY" value="0">
+<% end %>
+
 <%= javascript_include_tag "lightbox" %>
- <script>
+<%= javascript_include_tag "confirm" %>
+
+<script>
+	var click = 0;
+	var firstClick = [0,0];
+	var secondClick = [0,0];
 	$(function() {
 		$lightbox = $('#lightbox');
-		$lightbox.find('.lb-container').on('click', function(e) {
-			alert([e.pageX - $('.lb-outerContainer').offset().left, e.pageY - $('.lb-outerContainer').offset().top]);
-			return false;
+		$lightbox.find('.lb-container').on('mousedown', function(e) {
+		switch (e.which) {
+			case 1:
+				click++;
+				if (click == 1) {
+					firstClick = [e.pageX - $('.lb-outerContainer').offset().left, e.pageY - $('.lb-outerContainer').offset().top];
+					alert("You've clicked at "+firstClick+". Click at desired position to move word");
+				} else if (click == 2) {
+					secondClick = [e.pageX - $('.lb-outerContainer').offset().left, e.pageY - $('.lb-outerContainer').offset().top];
+					$('#fClickX').val(firstClick[0]);
+					$('#fClickY').val(firstClick[1]);
+					$('#sClickX').val(secondClick[0]);
+					$('#sClickY').val(secondClick[1]);
+					$('#movesubmit').submit();
+				} 
+				break;
+			case 3:
+				$(document).on("contextmenu.namespace", function(event) {   
+					event.preventDefault();
+				}); 
+				ConfirmDialog([e.pageX - $('.lb-outerContainer').offset().left, e.pageY - $('.lb-outerContainer').offset().top]);
+				click = 0;
+				break;
+		}
       });
+	  $('.draggable').on("click", function() {
+		click = 0;
+	  });
 	});
+	
+	function ConfirmDialog(message){
+    $('<div></div>').appendTo('body')
+                    .html('<form action="gallery/color" id="formColor" method="post">Red:  <input id="Red" type="text" onkeypress="validate(event)"><br>Blue: <input id="Blue" type="text" onkeypress="validate(event)"><br>Green:<input id="Green" type="text" onkeypress="validate(event)"><br>This will change the color of the word at pixels '+message+'</form>')
+                    .dialog({
+                        modal: true, title: 'Change Color (0-255)', zIndex: 10000, autoOpen: true,
+                        width: 'auto', resizable: false,
+                        buttons: {
+                            Yes: function () {
+								if( $('#Red').val() >= 0 && $('#Red').val() <= 255 && $('#Red').val()
+								 && $('#Blue').val() >= 0 && $('#Blue').val() <= 255 && $('#Blue').val()
+								 && $('#Green').val() >= 0 && $('#Green').val() <= 255 && $('#Green').val()) {
+									$('#formColor').submit();
+									$(this).dialog("close");
+								} 
+                            },
+                            No: function () {
+                                $(this).dialog("close");
+                            }
+                        },
+                        close: function (event, ui) {
+							$(document).off("contextmenu.namespace"); // enable contextmenu
+                            $(this).remove();
+                        }
+                    });
+    };
+	</script>
+	
+	<script>
+	//Ensure only numbers are allowed
+	function validate(evt) {
+	var theEvent = evt || window.event;
+	  var key = theEvent.keyCode || theEvent.which;
+	  key = String.fromCharCode( key );
+	  var regex = /[0-9]|\./;
+	  if( !regex.test(key) ) {
+		theEvent.returnValue = false;
+		if(theEvent.preventDefault) theEvent.preventDefault();
+	  }
+	}
+	</script>
   
-  </script>
+  
+  

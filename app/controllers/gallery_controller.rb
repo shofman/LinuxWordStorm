@@ -133,4 +133,9 @@ class GalleryController < ApplicationController
 		redirect_to "/home"
 	end
    end
+   
+   def move
+		puts params
+		results = `java -jar #{Rails.root.join('lib', 'assets', 'wordstorms.jar').to_s} #{args}`
+   end
 end
