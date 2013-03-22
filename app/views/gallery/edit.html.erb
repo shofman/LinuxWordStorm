@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
   <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
   <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-  <link rel="stylesheet" href="/resources/demos/style.css" />
   <style>
   .draggable { width: <%= @wordstorm.size %>px; height: <%= Integer(@wordstorm.size * 0.75)%>px; padding: 0.5em; float: left; margin: 0 10px 10px 0; }
   #draggable, #draggable2 { margin-bottom:20px; }
@@ -52,7 +51,7 @@
 	<% f.fields_for :images do |image| %>
       	<span><%= f.text_field(:images) %></span>
     <% end %>
-	<span><%= f.submit %></span>
+	<span><%= f.submit :class => 'btn btn-medium btn-primary' %></span>
 	</h2>
 <% end %>
 <span><%= link_to " Increase Size ", {:controller => 'gallery', :action => 'edit', :plus => @wordstorm.cloud_id}, {:id => "increase", :style => "float:right;"}%></span>

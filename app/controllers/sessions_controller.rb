@@ -27,23 +27,49 @@ class SessionsController < ApplicationController
 		#Setting Page
 	end
 	
-	
-	def save 
-	#TODO: Needs to have a check here that the values cannot be greater than a certain value
+	def increaseFileCount
 		@user = User.find(session[:user_id])
-		@user.settings.lcase = params[:scoped_settings][:lcase]
-		@user.settings.tfidf = params[:scoped_settings][:tfidf]
-		@user.settings.algo = params[:scoped_settings][:algo]
-		@user.settings.tolerance = params[:scoped_settings][:tolerance]
-		@user.settings.iterations = params[:scoped_settings][:iterations]
-		@user.settings.maxwords= params[:scoped_settings][:maxwords]
-		@user.settings.color = params[:scoped_settings][:color]
-		@user.settings.angle = params[:scoped_settings][:angle]
-		@user.settings.scale = params[:scoped_settings][:scale]	
-		@user.settings.font = params[:scoped_settings][:font]
-		@user.increase_count
-		@user.save
-	end 
+		if (@user.nil?)
+			redirect_to :login
+			flash[:notice] = "Must be signed in"
+		else
+			@user.increase_count
+			@user.save
+		end
+	end
+	
+	def saveSettings
+		@user = User.find(session[:user_id])
+		if (@user.nil?)
+			redirect_to :login
+			flash[:notice] = "Must be signed in"
+		else
+			if params.has_key?(:scoped_settings)
+				@user.settings.lcase = params[:scoped_settings][:lcase]
+				@user.settings.tfidf = params[:scoped_settings][:tfidf]
+				@user.settings.algo = params[:scoped_settings][:algo]
+				@user.settings.tolerance = params[:scoped_settings][:tolerance]
+				@user.settings.iterations = params[:scoped_settings][:iterations]
+				@user.settings.maxwords= params[:scoped_settings][:maxwords]
+				@user.settings.color = params[:scoped_settings][:color]
+				@user.settings.angle = params[:scoped_settings][:angle]
+				@user.settings.scale = params[:scoped_settings][:scale]	
+				@user.settings.font = params[:scoped_settings][:font]
+				@user.save
+			else 
+				redirect_to :profile
+			end
+		end
+	end
+	
+	def saveProfile
+		saveSettings
+	end
+	
+	def saveGenerate
+		saveSettings
+		increaseFileCount
+	end
 
 	def login
 		#Login Form

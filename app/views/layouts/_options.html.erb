@@ -5,7 +5,6 @@
 			<br><h5>Max Words</h5><%= f.number_field :maxwords, :value => @maxwords, :in => 1..100  %> 
 			<br><h5>Iterations</h5><%= f.number_field :iterations, :value => @iterations, :in => 1..20  %> 
 			<br><h5>Tolerance</h5><%= f.number_field :tolerance, :value => @tolerance, :in => 1..100  %> 
-			
 			<br><h5>Case:</h5>
 			<% [ 'Lower Case', 'Regular Case', 'Upper Case' ].each do |lcase| %>
 				<%= f.radio_button :lcase, lcase, {:checked => lcase == @lcase, :style => "float:left; width: 50px"} %>

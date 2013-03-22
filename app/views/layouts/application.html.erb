@@ -9,7 +9,15 @@
 	<%= yield :head %>
   </head>
   <body>
-    <%= render 'layouts/header' %>
+    <%= render 'layouts/header' %> 	
+	<%= 
+		if params[:action] != "noscript"
+			render 'layouts/scriptcheck'
+		end
+	%>
+	
+		
+	
     <div class="container" id="main_container">
       <%= yield %>
       <%= render 'layouts/footer' %>

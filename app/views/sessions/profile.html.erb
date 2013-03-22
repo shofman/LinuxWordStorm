@@ -1,19 +1,61 @@
 <h2 class='User_Header'> <%=@current_user.username%> Profile <h2>
 <h2></h2>
 <br>
-<br><%= link_to "Create word storm!", '/upload', {id: "submit", class: "btn btn-medium btn-primary"}, {:style => "float:center;"}%> 
-<%= link_to "View/Edit Your Gallery", '/gallery/view', {id: "submit", class: "btn btn-medium btn-primary"}, {:style => "float:center;"}%> 
+<br><%= link_to "Create word storm!", '/upload', {id: "links", class: "btn btn-medium btn-primary"}, {:style => "float:center;"}%> 
+<%= link_to "View/Edit Your Gallery", '/gallery/view', {id: "links", class: "btn btn-medium btn-primary"}, {:style => "float:center;"}%> 
 <br>
-<%= render "layouts/options" %>
+		<div class="form_row">
+		<h3>Options:</h3>	
+		<%= form_for(@user.settings, :html => { :id => 'profsettings' }, :remote => true, :url => {:controller => 'sessions', :action => 'saveProfile'}) do |f| %>
+			<br><h5>Font</h5><%= f.select(:font, @fontchoices, { :value => @font, :selected => @font } ) %>
+			<br><h5>Max Words</h5><%= f.number_field :maxwords, :value => @maxwords, :in => 1..100, :onkeypress=> "validate(event)" %> 
+			<br><h5>Iterations</h5><%= f.number_field :iterations, :value => @iterations, :in => 1..20, :onkeypress=> "validate(event)"  %> 
+			<br><h5>Tolerance</h5><%= f.number_field :tolerance, :value => @tolerance, :in => 1..100, :onkeypress=> "validate(event)"  %> 
+			<br><h5>Case:</h5>
+			<% [ 'Lower Case', 'Regular Case', 'Upper Case' ].each do |lcase| %>
+				<%= f.radio_button :lcase, lcase, {:checked => lcase == @lcase, :style => "float:left; width: 50px"} %>
+				<%= f.label "theme_#{lcase}", lcase.humanize, {:style => "float:left"}%>
+			<% end %>
+
+			<br><h5>TfIdf Use:</h5>
+			<% [ 'No idf', 'TfIdf', 'Idf'].each do |tfidf| %>
+				<%= f.radio_button :tfidf, tfidf, {:checked => tfidf == @tfidf, :disabled => @algo == 'Independent', :style => "float:left; width: 50px"} %>
+				<%= f.label "theme_#{tfidf}", tfidf.humanize, {:style => "float:left"}%>
+			<% end %> 
+
+			<br><h5>Algorithm:</h5>
+			<% [ 'Independent', 'Iterative', 'Gradient', 'Combined'].each do |algo| %>
+				<%= f.radio_button :algo, algo, {:checked => algo == @algo, :style => "float:left; width: 50px"} %>
+				<%= f.label "theme_#{algo}", algo.humanize, {:style => "float:left"}%>
+			<% end %>
+			<br><h5>Angle Coordinator:</h5><%= f.check_box(:angle, :checked_value => "1", :unchecked_value => "0", :disabled => @algo == 'Independent', :checked => '1' == @angle) %>
+			<br><h5>Color Coordinator:</h5><%= f.check_box(:color, :checked_value => "1", :unchecked_value => "0", :disabled => @algo == 'Independent', :checked => '1' == @color) %>
+			<br><h5>Scale Coordinator:</h5><%= f.check_box(:scale, :checked_value => "1", :unchecked_value => "0", :disabled => @algo == 'Independent', :checked => '1' == @scale) %>
+
+		<% end %>
+		</div>
 
 
 
 <script>
 $(function() {
-  $('#submit').click(function() {
-		//alert("This may take some time. Please be patient.");
-		$('#formsubmit').submit();
-	
+  $('.btn').click(function() {
+		$.ajaxSetup({async:false});
+		$('#profsettings').submit();
   });
 });
+</script>
+
+<script>
+	//Ensure only numbers are allowed
+	function validate(evt) {
+	var theEvent = evt || window.event;
+	  var key = theEvent.keyCode || theEvent.which;
+	  key = String.fromCharCode( key );
+	  var regex = /[0-9]|\./;
+	  if( !regex.test(key) ) {
+		theEvent.returnValue = false;
+		if(theEvent.preventDefault) theEvent.preventDefault();
+	  }
+	}
 </script>

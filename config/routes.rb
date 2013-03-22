@@ -18,5 +18,9 @@ JqueryFileuploadRailsExample::Application.routes.draw do
   match '/profile',  to: 'sessions#profile'
   match '/settings', to: 'sessions#setting'
   match '/sessions/home', to: 'static_pages#home'
+  match '/noscript', to: 'static_pages#noscript'
+  match '/edits', to: 'gallery#edit'
+  match '/finalize', to: 'gallery#edit'
+
 
 end

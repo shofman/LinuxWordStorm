@@ -46,8 +46,14 @@ class GalleryController < ApplicationController
 			@user = User.find(session[:user_id])
 			@storm = @user.word_storms.last
 		end
-		@curr_storm_id = @storm.cloud_id
-		@files = Dir.glob(@storm.file_location + '/*.png')
+		if @storm.nil?
+			flash[:notice] = "No storm found"
+			redirect_to :action => :view
+		else 
+			@curr_storm_id = @storm.cloud_id
+			@files = Dir.glob(@storm.file_location + '/*.png')
+		end
+		
 	else 
 		flash[:notice] = "No storms exist yet. Try Creating One"
 		redirect_to "/upload"
@@ -61,7 +67,12 @@ class GalleryController < ApplicationController
 	if (params.has_key?(:stormedit))
 		@user = User.find(session[:user_id])
   		@wordstorm = @user.word_storms.find_by_cloud_id(Integer(params[:stormedit]))
-		@files = Dir.glob(@wordstorm.file_location.to_s + '/*.png')
+		if @wordstorm.nil?
+			flash[:notice] = "No storm exists" 
+			redirect_to :action => :view
+		else 
+			@files = Dir.glob(@wordstorm.file_location.to_s + '/*.png')
+		end
 	elsif (params.has_key?(:plus))
 		@user = User.find(session[:user_id])
 		@wordstorm = @user.word_storms.find_by_cloud_id(Integer(params[:plus]))

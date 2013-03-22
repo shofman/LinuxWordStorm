@@ -10,6 +10,9 @@ class StaticPagesController < ApplicationController
   def help
   end
   
+  def noscript
+  end
+  
   def create
 	if @user.uploads.count > 0
 		@allsettings = @user.settings.all
@@ -39,11 +42,24 @@ class StaticPagesController < ApplicationController
 			@wordstorm.save
 		
 			#Place the files for the database
+			y = 0
+			x = 0
 			@files.each_with_index do |file, i|
-				dbFile = @wordstorm.images.find_or_create_by_fileLocation(:name => file.split("/").last.to_s, :fileLocation => file.to_s, :local_num => i, :pos_x => i * 20, :pos_y => 10)
+				#Use measurements by default
+				xpos = (x * 185) + 112 
+				if xpos > 1500
+					x = 0
+					y += 1
+					xpos = 112 
+				end
+				ypos = (y * 145) + 146
+				dbFile = @wordstorm.images.find_or_create_by_fileLocation(:name => file.split("/").last.to_s, :fileLocation => file.to_s, :local_num => i, :pos_x => xpos, :pos_y => ypos)
 				dbFile.save
+				x += 1
+
 			end
 		end
+		redirect_to "/finalize?stormedit=#{@user.storm_num}"
 	else
 		redirect_to "/uploads"
 		flash[:notice] = "No uploads detected. Please upload at least one file"
