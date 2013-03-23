@@ -147,11 +147,11 @@ class GalleryController < ApplicationController
    
    def move
 		if params.has_key?(:fClickX) and params.has_key?(:fClickY) and params.has_key?(:sClickX) and params.has_key?(:sClickY) and params.has_key?(:storm) and params.has_key?(:cloud)
-			@output_folder = WordStorm.find(params[:storm]).file_location
-			args = "#{@output_folder} #{Integer(params[:cloud])} #{Integer(params[:fClickX])} #{Integer(params[:fClickY])} #{Integer(params[:sClickX])} #{Integer(params[:sClickY])}"
-			puts args
-			#results = `java -jar #{Rails.root.join('lib', 'assets', 'move.jar').to_s} #{args}`
-			#puts results
+			storm = WordStorm.find(params[:storm])
+			output_folder = storm.file_location
+			args = "#{output_folder} #{Integer(params[:cloud])} #{Integer(params[:fClickX])} #{Integer(params[:fClickY])} #{Integer(params[:sClickX])} #{Integer(params[:sClickY])}"
+			results = `java -jar #{Rails.root.join('lib', 'assets', 'move.jar').to_s} #{args}`
+			redirect_to "/gallery/edit?stormedit=" + storm.cloud_id.to_s
 		else 
 			redirect_to :all
 		end
@@ -159,10 +159,11 @@ class GalleryController < ApplicationController
    
    def color
 		if params.has_key?(:color) and params.has_key?(:storm) and params.has_key?(:cloud) and params.has_key?(:one) and params.has_key?(:two)
-			@output_folder = WordStorm.find(params[:storm]).file_location
-			args = "#{@output_folder} #{Integer(params[:cloud])} #{Integer(params[:one])} #{Integer(params[:two])} #{Integer(params[:color][:red])} #{Integer(params[:color][:blue])} #{Integer(params[:color][:green])}"
-			puts args
-			#results = `java -jar #{Rails.root.join('lib', 'assets', 'color.jar').to_s} #{args}`
+			storm = WordStorm.find(params[:storm])
+			output_folder = storm.file_location
+			args = "#{output_folder} #{Integer(params[:cloud])} #{Integer(params[:one])} #{Integer(params[:two])} #{Integer(params[:color][:red])} #{Integer(params[:color][:blue])} #{Integer(params[:color][:green])}"
+			results = `java -jar #{Rails.root.join('lib', 'assets', 'color.jar').to_s} #{args}`
+			redirect_to "/gallery/edit?stormedit=" + storm.cloud_id.to_s
 		else
 			redirect_to :all
 		end

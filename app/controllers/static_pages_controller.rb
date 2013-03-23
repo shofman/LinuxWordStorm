@@ -33,7 +33,7 @@ class StaticPagesController < ApplicationController
 		#This creates the path for the Wordstorm arguments to look
 		args = "#{@input_folder}/ #{@output_folder}/ 100 #{@user.settings.maxwords} #{convertTfIdf(@user.settings.tfidf)} #{@user.settings.color} \"#{convertAlgo(@user.settings.algo)}\" #{@user.settings.tolerance} #{@user.settings.iterations} \"#{@user.settings.font}\" \"#{convertCase(@user.settings.lcase)}\" #{@user.settings.scale} #{@user.settings.angle}"
 		#Use the jar located at the path lib/assets/test2.jar with the constraits from args
-		results = `java -jar #{Rails.root.join('lib', 'assets', 'wordstorms.jar').to_s} #{args}`
+		results = `java -jar #{Rails.root.join('lib', 'assets', 'wordstorm.jar').to_s} #{args}`
 		#results = "test"*300
 		if (results.length > 300)
 			@files = Dir.glob(@output_folder.to_s + '/*.png')		
