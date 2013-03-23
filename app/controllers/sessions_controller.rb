@@ -38,6 +38,15 @@ class SessionsController < ApplicationController
 		end
 	end
 	
+	def between(value, x, y)
+		if value > x
+			value = x
+		elsif value < y
+			value = y
+		end
+		return value
+	end
+	
 	def saveSettings
 		@user = User.find(session[:user_id])
 		if (@user.nil?)
@@ -48,9 +57,12 @@ class SessionsController < ApplicationController
 				@user.settings.lcase = params[:scoped_settings][:lcase]
 				@user.settings.tfidf = params[:scoped_settings][:tfidf]
 				@user.settings.algo = params[:scoped_settings][:algo]
-				@user.settings.tolerance = params[:scoped_settings][:tolerance]
-				@user.settings.iterations = params[:scoped_settings][:iterations]
-				@user.settings.maxwords= params[:scoped_settings][:maxwords]
+				tol = Integer(params[:scoped_settings][:tolerance])
+				@user.settings.tolerance = between(tol, 100, 1)
+				iterate = Integer(params[:scoped_settings][:iterations])
+				@user.settings.iterations = between(iterate, 20, 1)
+				words = Integer(params[:scoped_settings][:maxwords])
+				@user.settings.maxwords = between(words, 100, 1)
 				@user.settings.color = params[:scoped_settings][:color]
 				@user.settings.angle = params[:scoped_settings][:angle]
 				@user.settings.scale = params[:scoped_settings][:scale]	

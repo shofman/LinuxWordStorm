@@ -77,6 +77,8 @@
 	<input type="hidden" name="fClickY" id = "fClickY" value="0">
 	<input type="hidden" name="sClickX" id = "sClickX" value="0">
 	<input type="hidden" name="sClickY" id = "sClickY" value="0">
+	<input type="hidden" name="storm" id = "storm" value="0">
+	<input type="hidden" name="cloud" id = "cloud" value="0">
 <% end %>
 
 <%= javascript_include_tag "lightbox" %>
@@ -86,6 +88,7 @@
 	var click = 0;
 	var firstClick = [0,0];
 	var secondClick = [0,0];
+	var cloud = 0;
 	$(function() {
 		$lightbox = $('#lightbox');
 		$lightbox.find('.lb-container').on('mousedown', function(e) {
@@ -101,6 +104,8 @@
 					$('#fClickY').val(firstClick[1]);
 					$('#sClickX').val(secondClick[0]);
 					$('#sClickY').val(secondClick[1]);
+					$('#storm').val(<%= @wordstorm.id%>);
+					$('#cloud').val(cloud);
 					$('#movesubmit').submit();
 				} 
 				break;
@@ -115,23 +120,26 @@
       });
 	  $('.draggable').on("click", function() {
 		click = 0;
+		cloud = $(this).attr('id').split("draggable").pop();
 	  });
 	});
 	
 	function ConfirmDialog(message){
     $('<div></div>').appendTo('body')
-                    .html('<form action="gallery/color" id="formColor" method="post">Red:  <input id="Red" type="text" onkeypress="validate(event)"><br>Blue: <input id="Blue" type="text" onkeypress="validate(event)"><br>Green:<input id="Green" type="text" onkeypress="validate(event)"><br>This will change the color of the word at pixels '+message+'</form>')
+					.html('<%= form_tag({:controller => "gallery", :action => "color"}, :id => "formColor", :method => "post", :class => "nifty_form") do |f| %> Red: <%= text_field(:color, :red, {:onkeypress => "validate(event)"})%> <br>Blue: <%= text_field(:color, :blue, {:onkeypress => "validate(event)"})%><br>Green:<%= text_field(:color, :green, {:onkeypress => "validate(event)"})%><input type="hidden" name="one" value="'+message[0]+'"><input type="hidden" name="cloud" value="'+cloud+'"><input type="hidden" name="storm" value="'+<%= Integer(@wordstorm.id) %>+'"><input type="hidden" id="position" name="two" value="'+message[1]+'"><br>This will change the color of the word at pixels '+message+'<% end %>')
                     .dialog({
                         modal: true, title: 'Change Color (0-255)', zIndex: 10000, autoOpen: true,
                         width: 'auto', resizable: false,
                         buttons: {
                             Yes: function () {
-								if( $('#Red').val() >= 0 && $('#Red').val() <= 255 && $('#Red').val()
-								 && $('#Blue').val() >= 0 && $('#Blue').val() <= 255 && $('#Blue').val()
-								 && $('#Green').val() >= 0 && $('#Green').val() <= 255 && $('#Green').val()) {
+								if( $('#color_red').val() >= 0 && $('#color_red').val() <= 255 && $('#color_red').val()
+								 && $('#color_blue').val() >= 0 && $('#color_blue').val() <= 255 && $('#color_blue').val()
+								 && $('#color_green').val() >= 0 && $('#color_green').val() <= 255 && $('#color_green').val()) {
 									$('#formColor').submit();
 									$(this).dialog("close");
-								} 
+								} else {
+									alert("Wrong values");
+								}
                             },
                             No: function () {
                                 $(this).dialog("close");

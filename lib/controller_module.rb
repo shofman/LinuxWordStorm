@@ -1,6 +1,6 @@
 module ControllerModule
   def setdefaults(user)
-	h1 =  {'lcase' => 'Regular Case', 'tfidf' => 'Idf', 'algo' => 'Combined', 'tolerance' => 50,'iterations' => 5, 'maxwords' => 15, 'color' => 1, 'angle' => 1, 'scale' => 1, 'font' => 'ChunkFive'}
+	h1 =  {'lcase' => 'Lower Case', 'tfidf' => 'Idf', 'algo' => 'Combined', 'tolerance' => 50,'iterations' => 5, 'maxwords' => 15, 'color' => 1, 'angle' => 1, 'scale' => 1, 'font' => 'ChunkFive'}
 	user.settings.lcase = h1['lcase']
 	user.settings.tfidf = h1['tfidf']
 	user.settings.algo = h1['algo']
@@ -13,7 +13,7 @@ module ControllerModule
 	user.settings.font = h1['font']
   end
   def resetdefault(user, key)
-	h1 =  {'lcase' => 'Regular Case', 'tfidf' => 'Idf', 'algo' => 'Combined', 'tolerance' => 50, 'iterations' => 5, 'maxwords' => 15, 'color' => 1, 'angle' => 1, 'scale' => 1}
+	h1 =  {'lcase' => 'Lower Case', 'tfidf' => 'Idf', 'algo' => 'Combined', 'tolerance' => 50, 'iterations' => 5, 'maxwords' => 15, 'color' => 1, 'angle' => 1, 'scale' => 1}
 	if key == 'lcase'
 		user.settings.lcase = h1['lcase']
 	elsif key == 'tfidf'

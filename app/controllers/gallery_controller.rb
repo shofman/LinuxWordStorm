@@ -146,7 +146,25 @@ class GalleryController < ApplicationController
    end
    
    def move
-		puts params
-		results = `java -jar #{Rails.root.join('lib', 'assets', 'wordstorms.jar').to_s} #{args}`
+		if params.has_key?(:fClickX) and params.has_key?(:fClickY) and params.has_key?(:sClickX) and params.has_key?(:sClickY) and params.has_key?(:storm) and params.has_key?(:cloud)
+			@output_folder = WordStorm.find(params[:storm]).file_location
+			args = "#{@output_folder} #{Integer(params[:cloud])} #{Integer(params[:fClickX])} #{Integer(params[:fClickY])} #{Integer(params[:sClickX])} #{Integer(params[:sClickY])}"
+			puts args
+			#results = `java -jar #{Rails.root.join('lib', 'assets', 'move.jar').to_s} #{args}`
+			#puts results
+		else 
+			redirect_to :all
+		end
+   end
+   
+   def color
+		if params.has_key?(:color) and params.has_key?(:storm) and params.has_key?(:cloud) and params.has_key?(:one) and params.has_key?(:two)
+			@output_folder = WordStorm.find(params[:storm]).file_location
+			args = "#{@output_folder} #{Integer(params[:cloud])} #{Integer(params[:one])} #{Integer(params[:two])} #{Integer(params[:color][:red])} #{Integer(params[:color][:blue])} #{Integer(params[:color][:green])}"
+			puts args
+			#results = `java -jar #{Rails.root.join('lib', 'assets', 'color.jar').to_s} #{args}`
+		else
+			redirect_to :all
+		end
    end
 end
