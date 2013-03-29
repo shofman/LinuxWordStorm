@@ -32,6 +32,11 @@ class StaticPagesController < ApplicationController
 		
 		#This creates the path for the Wordstorm arguments to look
 		args = "#{@input_folder}/ #{@output_folder}/ 100 #{@user.settings.maxwords} #{convertTfIdf(@user.settings.tfidf)} #{@user.settings.color} \"#{convertAlgo(@user.settings.algo)}\" #{@user.settings.tolerance} #{@user.settings.iterations} \"#{@user.settings.font}\" \"#{convertCase(@user.settings.lcase)}\" #{@user.settings.scale} #{@user.settings.angle}"
+		puts @image_root
+		puts @image_user
+		puts @output_folder
+		puts @input_folder
+		puts args
 		#Use the jar located at the path lib/assets/test2.jar with the constraits from args
 		results = `java -jar #{Rails.root.join('lib', 'assets', 'wordstorm.jar').to_s} #{args}`
 		#results = "test"*300
@@ -58,6 +63,10 @@ class StaticPagesController < ApplicationController
 				x += 1
 
 			end
+		else
+			flash[:notice] = "Results failed"
+			@user.decrease_count
+			redirect_to "gallery/view"
 		end
 		redirect_to "/finalize?stormedit=#{@user.storm_num}"
 	else

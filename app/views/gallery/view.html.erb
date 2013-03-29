@@ -17,28 +17,33 @@
 <div class="section" style = "width: 120%">
 	<h2 style = "float:left; height:0px;">
 	<span>WordStorm:  </span><span><%= @storm.name %></span>
+	<% if @viewaction == 'all' %>
+		<span> by </span><span><%= @name %></span>
+	<% end %>
 	</h2>
 	<h2 style = "float:right; height:0px;">
-	<span><%= link_to "Edit ", {:controller => 'gallery', :action => 'edit', :stormedit => @curr_storm_id}, {:style => "float:right;"}%></span>
-	<% if @storm.user_id == @user.id %>
-	<span>  <%= link_to " Share ", {:controller => 'gallery', :action => 'edit', :stormedit => @curr_storm_id}, {:style => "float:right; width:100px;"}%></span>
+	<span><%= link_to "Share", {:controller => 'gallery', :action => 'edit', :stormedit => @curr_storm_id}, {:style => "float:right;"}%></span>
+	<% if !@user.nil? %>
+		<% if @storm.user_id == @user.id %>
+		<span>  <%= link_to "Edit", {:controller => 'gallery', :action => 'edit', :stormedit => @curr_storm_id}, {:style => "float:right; width:100px;"}%></span>
+		<% end %>
 	<% end %>
 	</h2>
 </div>
 <br>
 <br>
-<%= link_to "Back", {:controller => 'gallery', :action => 'view', :stormid => @curr_storm_id, :back => :true}, {:style => "float:left;"}%>
-<%= link_to "Forward", {:controller => 'gallery', :action => 'view', :stormid => @curr_storm_id, :front => :true}, {:style => "float:right;"}%>
+<%= link_to "Back", {:controller => 'gallery', :action => @viewaction, :stormid => @curr_storm_id, :back => :true}, {:style => "float:left;"}%>
+<%= link_to "Forward", {:controller => 'gallery', :action => @viewaction, :stormid => @curr_storm_id, :front => :true}, {:style => "float:right;"}%>
 <br>
 
-<div style = "float:left" id="containment-wrapper">		
-		<div id = "imageRow" class="imageRow">
-				<% @files.each_with_index do |file, i| %>
-					<a href= "/../assets/<%= file.to_s.html_safe %>" rel="lightbox">
-						<%= image_tag("#{file.to_s.html_safe}", :id => "draggable"+i.to_s, :class => "draggable ui-widget-content", :style => "position: absolute; top: #{@storm.images[i].pos_y}px; left: #{@storm.images[i].pos_x}px;") %>
-					</a>
-				<% end %>
-		</div>
+<div id="containment-wrapper">
+	<div class="imageRow">
+			<% @files.each_with_index do |file, i| %>
+				<a href= "<%= image_asset(file.to_s, 'images', true) %>", class = "image", rel="lightbox", title="<%= @storm.images[i].name%>">
+					<%= image_tag("#{image_asset(file.to_s, "images", false)}", :id => "draggable"+i.to_s, :class => "draggable ui-widget-content", :style => "position: absolute; top: #{@storm.images[i].pos_y}px; left: #{@storm.images[i].pos_x}px;") %>
+				</a>
+			<% end %>
+	</div>
 </div>
 
 <%= javascript_include_tag "lightbox" %>

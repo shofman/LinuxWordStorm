@@ -1,0 +1,46 @@
+<% content_for :head do -%>
+	
+<%= stylesheet_link_tag "lightbox" %>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+  <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+  <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+  <style>
+  .draggable { width: <%= @storm.size %>px; height: <%= Integer(@storm.size * 0.75)%>px; padding: 0.5em; float: left; margin: 0 10px 10px 0; }
+  #draggable, #draggable2 { margin-bottom:20px; }
+  #navbar {margin-left: auto; margin-right: auto; }
+  #containment-wrapper { width: <%= @storm.size %>%; height:2000px; border:2px solid #ccc; padding: 10px; }
+  #main_container {margin-left: 100px; margin-right: 100px; }
+  </style>
+
+<% end -%>
+
+<div class="section" style = "width: 120%">
+	<h2 style = "float:left; height:0px;">
+	<span>WordStorm:  </span><span><%= @storm.name %></span>
+	</h2>
+	<h2 style = "float:right; height:0px;">
+	<span><%= link_to "Share", {:controller => 'gallery', :action => 'edit', :stormedit => @curr_storm_id}, {:style => "float:right;"}%></span>
+	<% if !@user.nil? %>
+		<% if @storm.user_id == @user.id %>
+		<span>  <%= link_to "Edit", {:controller => 'gallery', :action => 'edit', :stormedit => @curr_storm_id}, {:style => "float:right; width:100px;"}%></span>
+		<% end %>
+	<% end %>
+	</h2>
+</div>
+<br>
+<br>
+<%= link_to "Back", {:controller => 'gallery', :action => @viewaction, :stormid => @curr_storm_id, :back => :true}, {:style => "float:left;"}%>
+<%= link_to "Forward", {:controller => 'gallery', :action => @viewaction, :stormid => @curr_storm_id, :front => :true}, {:style => "float:right;"}%>
+<br>
+
+<div id="containment-wrapper">
+	<div class="imageRow">
+			<% @files.each_with_index do |file, i| %>
+				<a href= "<%= image_asset(file.to_s, 'images', true) %>", class = "image", rel="lightbox", title="<%= @storm.images[i].name%>">
+					<%= image_tag("#{image_asset(file.to_s, "images", false)}", :id => "draggable"+i.to_s, :class => "draggable ui-widget-content", :style => "position: absolute; top: #{@storm.images[i].pos_y}px; left: #{@storm.images[i].pos_x}px;") %>
+				</a>
+			<% end %>
+	</div>
+</div>
+
+<%= javascript_include_tag "lightbox" %>

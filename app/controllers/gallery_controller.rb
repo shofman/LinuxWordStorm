@@ -53,7 +53,7 @@ class GalleryController < ApplicationController
 			@curr_storm_id = @storm.cloud_id
 			@files = Dir.glob(@storm.file_location + '/*.png')
 		end
-		
+		@viewaction = 'view'
 	else 
 		flash[:notice] = "No storms exist yet. Try Creating One"
 		redirect_to "/upload"
@@ -138,7 +138,8 @@ class GalleryController < ApplicationController
 		@curr_storm_id = @storm.id
 		cookies[:gallery] = @storm.id
 		@files = Dir.glob(@storm.file_location + '/*.png')
-
+		@viewaction = 'all'
+		render :view
 	else 
 		flash[:notice] = WordStorm.count
 		redirect_to "/home"
@@ -168,4 +169,21 @@ class GalleryController < ApplicationController
 			redirect_to :all
 		end
    end
+
+
+   def image_asset(file, word, asset)
+	assetname = "/assets"
+	name, match, suffix = file.rpartition(word)
+	if match == word
+		if asset
+			return assetname << suffix
+		else
+			suffix.slice!(0)
+			return suffix
+		end
+	else
+		return "/assets/rails.png"
+	end
+   end
+   helper_method :image_asset
 end

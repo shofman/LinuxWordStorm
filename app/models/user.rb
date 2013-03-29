@@ -56,5 +56,10 @@ class User < ActiveRecord::Base
 	self.storm_num += 1
 	self.save
   end
+  
+  def decrease_count
+	self.storm_num -= 1
+	self.save
+  end
 
 end

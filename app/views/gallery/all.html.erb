@@ -12,30 +12,10 @@
   #containment-wrapper { width: <%= @storm.size %>%; height:2000px; border:2px solid #ccc; padding: 10px; }
   #main_container {margin-left: 100px; margin-right: 100px; }
   </style>
-  
-  <script>
-  $(function() {
-	num = "<%= @files.count %>"
-	for (var i=0;i<num;i++) { 
-		$("#draggable"+i).draggable( 
-			{ 'disable', snap: true, distance: 20, containment: "#containment-wrapper", scroll: false }	
-		);
-	}
-	});
-  </script>
 
 <% end -%>
 
-<!--
-	640 480
-		420
-	480	360
-		300
-		240
-		180
-		130
-		120
--->
+
 <div class="section" style = "width: 120%">
 	<h2 style = "float:left">
 	<span>WordStorm:  </span><span><%= @storm.name %></span><span> by </span><span><%= @name %></span>
