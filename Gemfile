@@ -1,9 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.6'
-gem 'bootstrap-sass', '2.1'
-gem 'bcrypt-ruby', :require => 'bcrypt'
-gem 'thin'
+#gem 'bootstrap-sass', '2.1'
+
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -22,12 +21,14 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'twitter-bootstrap-rails'
 gem 'jquery-rails'
 gem 'jquery-fileupload-rails'
 gem 'jquery-ui-rails'
 gem 'paperclip'
 gem 'ledermann-rails-settings', :require => 'rails-settings'
-#gem 'twitter-bootstrap-rails'
+gem 'bcrypt-ruby', :require => 'bcrypt'
+gem 'thin'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
