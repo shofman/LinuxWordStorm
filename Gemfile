@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 gem 'rails', '3.2.6'
 #gem 'bootstrap-sass', '2.1'
@@ -45,3 +45,8 @@ gem 'thin'
 
 # To use debugger
 # gem 'debugger'
+gem 'rubber'
+gem 'open4'
+gem 'gelf'
+gem 'graylog2_exceptions', :git => 'git://github.com/wr0ngway/graylog2_exceptions.git'
+gem 'graylog2-resque'

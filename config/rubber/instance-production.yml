@@ -1,0 +1,111 @@
+---
+- !ruby/object:Rubber::Configuration::InstanceItem
+  name: db01
+  domain: wordstorm.com
+  roles:
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: db
+    options:
+      primary: true
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: postgresql
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: postgresql_master
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: collectd
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: monit
+    options: {}
+  instance_id: i-d083d19a
+  image_type: t1.micro
+  image_id: ami-1ef5ff6a
+  security_groups:
+  - wordstorm_production_default
+  - wordstorm_production_db01
+  - wordstorm_production_db
+  - wordstorm_production_postgresql
+  - wordstorm_production_postgresql_master
+  - wordstorm_production_collectd
+  - wordstorm_production_monit
+  external_host: ec2-54-228-128-142.eu-west-1.compute.amazonaws.com
+  external_ip: 54.228.128.142
+  internal_host: ip-10-56-61-136.eu-west-1.compute.internal
+  internal_ip: 10.56.61.136
+  zone: eu-west-1c
+  platform: linux
+  root_device_type: ebs
+- !ruby/object:Rubber::Configuration::InstanceItem
+  name: app01
+  domain: wordstorm.com
+  roles:
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: app
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: passenger
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: apache
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: collectd
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: monit
+    options: {}
+  instance_id: i-0a80d240
+  image_type: t1.micro
+  image_id: ami-1ef5ff6a
+  security_groups:
+  - wordstorm_production_default
+  - wordstorm_production_app01
+  - wordstorm_production_app
+  - wordstorm_production_passenger
+  - wordstorm_production_apache
+  - wordstorm_production_collectd
+  - wordstorm_production_monit
+  external_host: ec2-54-228-140-169.eu-west-1.compute.amazonaws.com
+  external_ip: 54.228.140.169
+  internal_host: ip-10-210-144-252.eu-west-1.compute.internal
+  internal_ip: 10.210.144.252
+  zone: eu-west-1c
+  platform: linux
+  root_device_type: ebs
+- !ruby/object:Rubber::Configuration::InstanceItem
+  name: web01
+  domain: wordstorm.com
+  roles:
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: web
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: haproxy
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: collectd
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: monit
+    options: {}
+  instance_id: i-9a80d2d0
+  image_type: t1.micro
+  image_id: ami-1ef5ff6a
+  security_groups:
+  - wordstorm_production_default
+  - wordstorm_production_web
+  - wordstorm_production_web01
+  - wordstorm_production_haproxy
+  - wordstorm_production_collectd
+  - wordstorm_production_monit
+  external_host: ec2-54-228-14-183.eu-west-1.compute.amazonaws.com
+  external_ip: 54.228.14.183
+  internal_host: ip-10-208-11-69.eu-west-1.compute.internal
+  internal_ip: 10.208.11.69
+  zone: eu-west-1c
+  platform: linux
+  root_device_type: ebs
+- volumes: {}
+  static_ips: {}

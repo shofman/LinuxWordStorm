@@ -11,7 +11,7 @@ class UsersController < ApplicationController
 	setdefaults(@user)
 	@user.storm_num = 0
 	if @user.save
-		#UserMailer.welcome_email(@user).deliver
+		UserMailer.welcome_email(@user).deliver
 		flash[:notice] = "You just signed up"
 		flash[:color] = "valid"
 		redirect_to "/login"
