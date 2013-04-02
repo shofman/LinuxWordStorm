@@ -10,6 +10,7 @@ gem 'rails', '3.2.6'
 #gem 'sqlite3'
 gem 'pg'
 
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -27,6 +28,7 @@ gem 'jquery-rails'
 gem 'jquery-fileupload-rails'
 gem 'jquery-ui-rails'
 gem 'paperclip'
+gem 'aws-s3'
 gem 'ledermann-rails-settings', :require => 'rails-settings'
 gem 'bcrypt-ruby', :require => 'bcrypt'
 gem 'thin'

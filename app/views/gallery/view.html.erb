@@ -22,7 +22,7 @@
 	<% end %>
 	</h2>
 	<h2 style = "float:right; height:0px;">
-	<span><%= link_to "Share", {:controller => 'gallery', :action => 'edit', :stormedit => @curr_storm_id}, {:style => "float:right;"}%></span>
+	<span><%= link_to "Share", "#", {:id => "share", :style => "float:right;"}%></span>
 	<% if !@user.nil? %>
 		<% if @storm.user_id == @user.id %>
 		<span>  <%= link_to "Edit", {:controller => 'gallery', :action => 'edit', :stormedit => @curr_storm_id}, {:style => "float:right; width:100px;"}%></span>
@@ -39,11 +39,75 @@
 <div id="containment-wrapper">
 	<div class="imageRow">
 			<% @files.each_with_index do |file, i| %>
-				<a href= "<%= image_asset(file.to_s, 'images', true) %>", class = "image", rel="lightbox", title="<%= @storm.images[i].name%>">
-					<%= image_tag("#{image_asset(file.to_s, "images", false)}", :id => "draggable"+i.to_s, :class => "draggable ui-widget-content", :style => "position: absolute; top: #{@storm.images[i].pos_y}px; left: #{@storm.images[i].pos_x}px;") %>
+				<a href= "<%= file %>", class = "image", rel="lightbox", title="<%= @storm.images[i].name%>">
+					<%= image_tag(file, :id => "draggable"+i.to_s, :class => "draggable ui-widget-content", :style => "position: absolute; top: #{@storm.images[i].pos_y}px; left: #{@storm.images[i].pos_x}px;") %>
 				</a>
 			<% end %>
 	</div>
 </div>
 
 <%= javascript_include_tag "lightbox" %>
+
+  <script>
+  $(function() {
+    var email = $( "#email" );
+    var allFields = $( [] ).add( email );
+ 
+    function checkLength( o, n, min, max ) {
+      if ( o.val().length > max || o.val().length < min ) {
+        o.addClass( "ui-state-error" );
+        return false;
+      } else {
+        return true;
+      }
+    }
+ 
+    function checkRegexp( o, regexp ) {
+      if ( !( regexp.test( o.val() ) ) ) {
+        o.addClass( "ui-state-error" );
+        return false;
+      } else {
+        return true;
+      }
+    }
+ 
+    $( "#dialog-form" ).dialog({
+      autoOpen: false,
+      height: 300,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Create an account": function() {
+          var bValid = true;
+	  var EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+          bValid = bValid && checkLength( email, "email", 6, 80 );
+          // From jquery.validate.js (by joern), contributed by Scott Gonzalez: http://projects.scottsplayground.com/email_address_validation/
+          bValid = bValid && checkRegexp( email, EMAIL_REGEX);
+ 
+          if ( bValid ) {
+	    $ ( "#emailshare" ).submit();
+            $( this ).dialog( "close" );
+          }
+        },
+        Cancel: function() {
+          $( this ).dialog( "close" );
+        }
+      },
+      close: function() {
+        allFields.val( "" ).removeClass( "ui-state-error" );
+      }
+    });
+
+	$("#share").click(function() { $("#dialog-form").dialog("open"); });
+});
+	</script>
+
+<div id = "dialog-form" title="Submit email">
+	<%= form_tag({:controller => "gallery", :action => "share"}, :id => "emailshare", :method => "post", :class => "nifty_form") do |f| %>
+		
+		<label for="email">Email</label>
+		<input type="text" name = "email" id="email" value = "" class = "text ui-widget-content ui-corner-all" />
+		<input type="hidden" name = "storm" id="storm" value = "<%= @storm.id %>" />
+		<input type="hidden" name = "from" id="from" value = "<%= params[:action] %>" />
+	<% end %>
+</div>

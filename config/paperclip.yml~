@@ -1,0 +1,9 @@
+common: &common
+   :default_url: "/assets/images/:user_id/:filename"
+
+development:
+   <<: *common
+
+production:
+   <<: *common
+   :url: "/assets/images/:user_id/:filename"

@@ -1,0 +1,233 @@
+<% content_for :head do -%>
+	
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+<%= csrf_meta_tag %>
+  
+  <script>
+  $(function() {
+    $( "#tabs" ).tabs();
+  });
+  </script>
+  
+<% end -%>
+
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">File Upload</a></li>
+    <li><a href="#tabs-2">Twitter</a></li>
+    <li><a href="#tabs-3">Wordstorm Options</a></li>
+  </ul>
+  <div id="tabs-1">
+	<div class="section">
+		<div class="container">
+		  <h2>Upload file</h2>
+		  <%= form_for Upload.new, :html => { :multipart => true, :id => "fileupload"  } do |f| %>
+			<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+			<div class="row fileupload-buttonbar">
+			  <div class="span9">
+				<!-- The fileinput-button span is used to style the file input field as button -->
+				<span class="btn btn-success fileinput-button">
+				  <i class="icon-plus icon-white"></i>
+				  <span>Add files...</span>
+				  <%= f.file_field(:upload, :accept => '.txt')%>
+				</span>
+				<button type="submit" class="btn btn-primary start">
+				  <i class="icon-upload icon-white"></i>
+				  <span>Start upload</span>
+				</button>
+				<button type="reset" class="btn btn-warning cancel">
+				  <i class="icon-ban-circle icon-white"></i>
+				  <span>Cancel upload</span>
+				</button>
+				<button type="button" class="btn btn-danger delete">
+				  <i class="icon-trash icon-white"></i>
+				  <span>Delete</span>
+				</button>
+				<input type="checkbox" class="toggle">
+			  </div>
+			  <div class="span5">
+				<!-- The global progress bar -->
+				<div class="progress progress-success progress-striped active fade">
+				  <div class="bar" style="width:0%;"></div>
+				</div>
+			  </div>
+			</div>
+			<br>
+			<!-- The table listing the files available for upload/download -->
+			<table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+			</table>
+		  <% end %>
+
+		</div>
+	</div>
+	<div>
+		 
+		 <%= link_to "Generate word storm!", '/create', class: "btn btn-medium btn-primary", :id => "generate" %> 
+		 
+	</div>
+  </div>
+
+  <div id="tabs-2">
+    <h2>Content heading 2</h2>
+    <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+  </div>
+  
+  <div id="tabs-3">
+    <h2>Wordstorms Generation Options</h2>
+		<div class="form_row">
+		<h3>Options:</h3>	
+		<%= form_for(@user.settings, :html => { :id => 'formsubmit' }, :remote => true, :url => {:controller => 'sessions', :action => 'saveGenerate'}) do |f| %>
+			<br><h5 title="Font the storm will appear as">Font</h5><%= f.select(:font, @fontchoices, { :value => @font, :selected => @font } ) %>
+			<br><h5 title="Number of words in the storm">Max Words</h5><%= f.number_field :maxwords, :value => @maxwords, :in => 1..100, :onkeypress=> "validate(event)" %> 
+			<br><h5 title="Number of times the storm will be run *may increase runtime*">Iterations</h5><%= f.number_field :iterations, :value => @iterations, :in => 1..20, :onkeypress=> "validate(event)"  %> 
+			<br><h5 title="How much space your storm can be spread apart" >Tolerance</h5><%= f.number_field :tolerance, :value => @tolerance, :in => 1..100, :onkeypress=> "validate(event)" %> 
+			<br><h5 title = "ALL CAPS Regular or lowercase">Case:</h5>
+			<% [ 'Lower Case', 'Regular Case', 'Upper Case' ].each do |lcase| %>
+				<%= f.radio_button :lcase, lcase, {:checked => lcase == @lcase, :style => "float:left; width: 50px"} %>
+				<%= f.label "theme_#{lcase}", lcase.humanize, {:style => "float:left"}%>
+			<% end %>
+
+			<br><h5 title = "Idf = Different words are brighter. TfIdf = Shared words are brighter. No idf = standard brightness" >TfIdf Use:</h5>
+			<% [ 'No idf', 'TfIdf', 'Idf'].each do |tfidf| %>
+				<%= f.radio_button :tfidf, tfidf, {:checked => tfidf == @tfidf, :disabled => @algo == 'Independent', :style => "float:left; width: 50px"} %>
+				<%= f.label "theme_#{tfidf}", tfidf.humanize, {:style => "float:left"}%>
+			<% end %> 
+
+			<br><h5 title = "Change how storm is generated. For more information, see about page ">Algorithm:</h5>
+			<% [ 'Independent', 'Iterative', 'Gradient', 'Combined'].each do |algo| %>
+				<%= f.radio_button :algo, algo, {:checked => algo == @algo, :style => "float:left; width: 50px"} %>
+				<%= f.label "theme_#{algo}", algo.humanize, {:style => "float:left"}%>
+			<% end %>
+			<br><h5 title = "Angle of words is shared across storm" >Angle Coordinator:</h5><%= f.check_box(:angle, :checked_value => "1", :unchecked_value => "0", :disabled => @algo == 'Independent', :checked => '1' == @angle) %>
+			<br><h5 title = "Color of words is shared across storm " >Color Coordinator:</h5><%= f.check_box(:color, :checked_value => "1", :unchecked_value => "0", :disabled => @algo == 'Independent', :checked => '1' == @color) %>
+			<br><h5>Scale Coordinator:</h5><%= f.check_box(:scale, :checked_value => "1", :unchecked_value => "0", :disabled => @algo == 'Independent', :checked => '1' == @scale) %>
+
+		<% end %>
+		</div>
+	<br>
+	<br>
+
+  </div>
+</div>
+
+<script>
+  var fileUploadErrors = {
+  maxFileSize: 'File is too big',
+  minFileSize: 'File is too small',
+  acceptFileTypes: 'Filetype not allowed',
+  maxNumberOfFiles: 'Max number of files exceeded',
+  uploadedBytes: 'Uploaded bytes exceed file size',
+  emptyResult: 'Empty file upload result'
+  };
+</script>
+
+<script>
+$(function() {
+  $('#generate').click(function() {
+		//alert("This may take some time. Please be patient.");
+		$.ajaxSetup({async:false});
+		$('#formsubmit').submit();
+	
+  });
+});
+</script>
+
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+ 
+  {% for (var i=0, file; file=o.files[i]; i++) { %}
+  <tr class="template-upload fade">
+    <td class="preview"><span class="fade"></span></td>
+    <td class="name"><span>{%=file.name%}</span></td>
+    <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+    {% if (file.error) { %}
+    <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+    {% } else if (o.files.valid && !i) { %}
+    <td>
+      <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
+    </td>
+    <td class="start">{% if (!o.options.autoUpload) { %}
+      <button class="btn btn-primary">
+        <i class="icon-upload icon-white"></i>
+        <span>{%=locale.fileupload.start%}</span>
+      </button>
+      {% } %}</td>
+    {% } else { %}
+    <td colspan="2"></td>
+    {% } %}
+    <td class="cancel">{% if (!i) { %}
+      <button class="btn btn-warning">
+        <i class="icon-ban-circle icon-white"></i>
+        <span>{%=locale.fileupload.cancel%}</span>
+      </button>
+      {% } %}</td>
+  </tr>
+  {% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+  {% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+      {% if (file.error) { %}
+        <td></td>
+        <td class="name"><span>{%=file.name%}</span></td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+        {% } else { %}
+        <td class="preview">{% if (file.thumbnail_url) { %}
+          <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
+          {% } %}</td>
+        <td class="name">
+          <span>{%=file.name%}</span>
+        </td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        <td colspan="2"></td>
+        {% } %}
+      <td class="delete">
+        <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+          <i class="icon-trash icon-white"></i>
+          <span>{%=locale.fileupload.destroy%}</span>
+        </button>
+        <input type="checkbox" name="delete" value="1">
+      </td>
+    </tr>
+    {% } %}
+</script>
+
+<script>
+	//Ensure only numbers are allowed
+	function validate(evt) {
+	var theEvent = evt || window.event;
+	  var key = theEvent.keyCode || theEvent.which;
+	  key = String.fromCharCode( key );
+	  var regex = /[0-9]|\./;
+	  if( !regex.test(key) ) {
+		theEvent.returnValue = false;
+		if(theEvent.preventDefault) theEvent.preventDefault();
+	  }
+	}
+</script>
+
+<script type="text/javascript" charset="utf-8">
+  $(function () {
+      // Initialize the jQuery File Upload widget:
+      $('#fileupload').fileupload();
+      // 
+      // Load existing files:
+      $.getJSON($('#fileupload').prop('action'), function (files) {
+        var fu = $('#fileupload').data('fileupload'), 
+          template;
+        fu._adjustMaxNumberOfFiles(-files.length);
+        console.log(files);
+        template = fu._renderDownload(files)
+          .appendTo($('#fileupload .files'));
+        // Force reflow:
+        fu._reflow = fu._transition && template.length &&
+          template[0].offsetWidth;
+        template.addClass('in');
+        $('#loading').remove();
+      });
+
+  });
+</script>

@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   	else
       # set current_user by the current user object
       @current_user = User.find session[:user_id] 
-	  session[:expire_after] = 10
+	  session[:expire_after] = 1
   		return true
   	end
   end

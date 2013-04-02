@@ -2,7 +2,7 @@ class Upload < ActiveRecord::Base
   belongs_to :user
   
   attr_accessible :upload
-  has_attached_file :upload, {:url => "/assets/images/:user_id/:filename"}
+  has_attached_file :upload, Rails.configuration.paperclip
 
   include Rails.application.routes.url_helpers
 

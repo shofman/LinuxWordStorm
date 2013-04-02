@@ -78,30 +78,30 @@
 		<div class="form_row">
 		<h3>Options:</h3>	
 		<%= form_for(@user.settings, :html => { :id => 'formsubmit' }, :remote => true, :url => {:controller => 'sessions', :action => 'saveGenerate'}) do |f| %>
-			<br><h5>Font</h5><%= f.select(:font, @fontchoices, { :value => @font, :selected => @font } ) %>
-			<br><h5>Max Words</h5><%= f.number_field :maxwords, :value => @maxwords, :in => 1..100, :onkeypress=> "validate(event)" %> 
-			<br><h5>Iterations</h5><%= f.number_field :iterations, :value => @iterations, :in => 1..20, :onkeypress=> "validate(event)"  %> 
-			<br><h5>Tolerance</h5><%= f.number_field :tolerance, :value => @tolerance, :in => 1..100, :onkeypress=> "validate(event)" %> 
-			<br><h5>Case:</h5>
+			<br><h5 title="Font the storm will appear as">Font</h5><%= f.select(:font, @fontchoices, { :value => @font, :selected => @font } ) %>
+			<br><h5 title="Number of words in the storm">Max Words</h5><%= f.number_field :maxwords, :value => @maxwords, :in => 1..100, :onkeypress=> "validate(event)" %> 
+			<br><h5 title="Number of times the storm will be run *may increase runtime*">Iterations</h5><%= f.number_field :iterations, :value => @iterations, :in => 1..20, :onkeypress=> "validate(event)"  %> 
+			<br><h5 title="How much space your storm can be spread apart" >Tolerance</h5><%= f.number_field :tolerance, :value => @tolerance, :in => 1..100, :onkeypress=> "validate(event)" %> 
+			<br><h5 title = "ALL CAPS Regular or lowercase">Case:</h5>
 			<% [ 'Lower Case', 'Regular Case', 'Upper Case' ].each do |lcase| %>
 				<%= f.radio_button :lcase, lcase, {:checked => lcase == @lcase, :style => "float:left; width: 50px"} %>
 				<%= f.label "theme_#{lcase}", lcase.humanize, {:style => "float:left"}%>
 			<% end %>
 
-			<br><h5>TfIdf Use:</h5>
+			<br><h5 title = "Idf = Different words are brighter. TfIdf = Shared words are brighter. No idf = standard brightness" >TfIdf Use:</h5>
 			<% [ 'No idf', 'TfIdf', 'Idf'].each do |tfidf| %>
 				<%= f.radio_button :tfidf, tfidf, {:checked => tfidf == @tfidf, :disabled => @algo == 'Independent', :style => "float:left; width: 50px"} %>
 				<%= f.label "theme_#{tfidf}", tfidf.humanize, {:style => "float:left"}%>
 			<% end %> 
 
-			<br><h5>Algorithm:</h5>
+			<br><h5 title = "Change how storm is generated. For more information, see about page ">Algorithm:</h5>
 			<% [ 'Independent', 'Iterative', 'Gradient', 'Combined'].each do |algo| %>
 				<%= f.radio_button :algo, algo, {:checked => algo == @algo, :style => "float:left; width: 50px"} %>
 				<%= f.label "theme_#{algo}", algo.humanize, {:style => "float:left"}%>
 			<% end %>
-			<br><h5>Angle Coordinator:</h5><%= f.check_box(:angle, :checked_value => "1", :unchecked_value => "0", :disabled => @algo == 'Independent', :checked => '1' == @angle) %>
-			<br><h5>Color Coordinator:</h5><%= f.check_box(:color, :checked_value => "1", :unchecked_value => "0", :disabled => @algo == 'Independent', :checked => '1' == @color) %>
-			<br><h5>Scale Coordinator:</h5><%= f.check_box(:scale, :checked_value => "1", :unchecked_value => "0", :disabled => @algo == 'Independent', :checked => '1' == @scale) %>
+			<br><h5 title = "Angle of words is shared across storm" >Angle Coordinator:</h5><%= f.check_box(:angle, :checked_value => "1", :unchecked_value => "0", :disabled => @algo == 'Independent', :checked => '1' == @angle) %>
+			<br><h5 title = "Color of words is shared across storm " >Color Coordinator:</h5><%= f.check_box(:color, :checked_value => "1", :unchecked_value => "0", :disabled => @algo == 'Independent', :checked => '1' == @color) %>
+			<br><h5 title = "Scale of words is shared across storm" >Scale Coordinator:</h5><%= f.check_box(:scale, :checked_value => "1", :unchecked_value => "0", :disabled => @algo == 'Independent', :checked => '1' == @scale) %>
 
 		<% end %>
 		</div>

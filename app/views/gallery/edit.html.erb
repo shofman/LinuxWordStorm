@@ -65,8 +65,8 @@
 <div id="containment-wrapper">
 	<div class="imageRow">
 			<% @files.each_with_index do |file, i| %>
-				<a href= "<%= image_asset(file.to_s, 'images', true) %>", class = "image", rel="lightbox", title="<%= @wordstorm.images[i].name%>">
-					<%= image_tag("#{image_asset(file.to_s, "images", false)}", :id => "draggable"+i.to_s, :class => "draggable ui-widget-content", :style => "position: absolute; top: #{@wordstorm.images[i].pos_y}px; left: #{@wordstorm.images[i].pos_x}px;") %>
+				<a href= "<%= file %>", class = "image", rel="lightbox", title="<%= @wordstorm.images[i].name%>">
+					<%= image_tag(file, :id => "draggable"+i.to_s, :class => "draggable ui-widget-content", :style => "position: absolute; top: #{@wordstorm.images[i].pos_y}px; left: #{@wordstorm.images[i].pos_x}px;") %>
 				</a>
 			<% end %>
 	</div>
@@ -146,12 +146,13 @@
                             }
                         },
                         close: function (event, ui) {
-							$(document).off("contextmenu.namespace"); // enable contextmenu
+				$(document).off("contextmenu.namespace"); // enable contextmenu
                             $(this).remove();
                         }
                     });
     };
 	</script>
+	
 	
 	<script>
 	//Ensure only numbers are allowed

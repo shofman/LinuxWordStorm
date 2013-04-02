@@ -1,6 +1,17 @@
 class GalleryController < ApplicationController
   respond_to :html, :xml, :json
     before_filter :authenticate_user, :except => [:all]
+
+  def debug
+	@results = params[:results]
+	@image_user = params[:image_user]
+	@output_folder = params[:output_folder]
+	@input_folder = params[:input_folder]
+	@args = params[:args]
+  end
+
+  
+
   def view
 	@user = User.find(session[:user_id])
     if @user.word_storms.size > 0
@@ -51,7 +62,11 @@ class GalleryController < ApplicationController
 			redirect_to :action => :view
 		else 
 			@curr_storm_id = @storm.cloud_id
-			@files = Dir.glob(@storm.file_location + '/*.png')
+			@files = []
+			@storm.images.each do |image|
+				@files.push (image.fileLocation)
+			end
+			#@files = Dir.glob(@storm.file_location + '/*.png')
 		end
 		@viewaction = 'view'
 	else 
@@ -71,7 +86,10 @@ class GalleryController < ApplicationController
 			flash[:notice] = "No storm exists" 
 			redirect_to :action => :view
 		else 
-			@files = Dir.glob(@wordstorm.file_location.to_s + '/*.png')
+			@files = []
+			@wordstorm.images.each do |image|
+				@files.push (image.fileLocation)
+			end
 		end
 	elsif (params.has_key?(:plus))
 		@user = User.find(session[:user_id])
@@ -82,7 +100,11 @@ class GalleryController < ApplicationController
 			@wordstorm.size = 640
 		end
 		@wordstorm.save
-		@files = Dir.glob(@wordstorm.file_location.to_s + '/*.png')
+		#@files = Dir.glob(@wordstorm.file_location.to_s + '/*.png')
+		@files = []
+		@wordstorm.images.each do |image|
+			@files.push (image.fileLocation)
+		end
 	elsif (params.has_key?(:minus))
 		@user = User.find(session[:user_id])
 		@wordstorm = @user.word_storms.find_by_cloud_id(Integer(params[:minus]))
@@ -92,7 +114,11 @@ class GalleryController < ApplicationController
 			@wordstorm.size = 80
 		end
 		@wordstorm.save
-		@files = Dir.glob(@wordstorm.file_location.to_s + '/*.png')
+		#@files = Dir.glob(@wordstorm.file_location.to_s + '/*.png')
+		@files = []
+		@wordstorm.images.each do |image|
+			@files.push (image.fileLocation)
+		end
 	else
 		redirect_to :action => :view
 	end
@@ -101,6 +127,7 @@ class GalleryController < ApplicationController
   
   def all
 	if WordStorm.count > 0
+		puts params
 		if cookies[:gallery].blank?
 			cookies[:gallery] = 0
 		end
@@ -126,6 +153,14 @@ class GalleryController < ApplicationController
 				@storm = WordStorm.last
 				flash[:notice] = "There's an error in the database"
 			end
+		elsif (params.has_key?(:shared))
+			if !params[:stormid].nil?
+				@stormid = Integer(params[:stormid])
+				@storm = WordStorm.find(@stormid)
+			else
+				@storm = WordStorm.last
+				flash[:notice] = "There's an error in the database"
+			end
 		else
 			begin 
 				@storm = WordStorm.find(Integer(cookies[:gallery]))
@@ -137,11 +172,14 @@ class GalleryController < ApplicationController
 		@name = User.find(@storm.user_id).username
 		@curr_storm_id = @storm.id
 		cookies[:gallery] = @storm.id
-		@files = Dir.glob(@storm.file_location + '/*.png')
+		@files = []
+		@storm.images.each do |image|
+			@files.push (image.fileLocation)
+		end
 		@viewaction = 'all'
 		render :view
 	else 
-		flash[:notice] = WordStorm.count
+		flash[:notice] = "No storms exist"
 		redirect_to "/home"
 	end
    end
@@ -152,6 +190,22 @@ class GalleryController < ApplicationController
 			output_folder = storm.file_location
 			args = "#{output_folder} #{Integer(params[:cloud])} #{Integer(params[:fClickX])} #{Integer(params[:fClickY])} #{Integer(params[:sClickX])} #{Integer(params[:sClickY])}"
 			results = `java -jar #{Rails.root.join('lib', 'assets', 'move.jar').to_s} #{args}`
+			if !results.starts_with?("Word Not Found")
+				@files = Dir.glob(output_folder.to_s + '/*.png')		
+				#Push to cloud
+				AWS::S3::DEFAULT_HOST.replace "s3-eu-west-1.amazonaws.com"
+				AWS::S3::Base.establish_connection!(
+					:access_key_id	=>	Rails.configuration.access_key_id,
+					:secret_access_key => 	Rails.configuration.secret_access_key
+				)
+				@files.each_with_index do |file, i|
+					AWS::S3::S3Object.store("/#{storm.user_id}/#{storm.cloud_id}/#{file.split("/").last.to_s}", open(file), 'wordstorm.bucket', :access => :public_read_write)
+					if !AWS::S3::Service.response.success?
+						break;
+					end
+					File.delete(file)
+				end	
+			end
 			redirect_to "/gallery/edit?stormedit=" + storm.cloud_id.to_s
 		else 
 			redirect_to :all
@@ -164,12 +218,34 @@ class GalleryController < ApplicationController
 			output_folder = storm.file_location
 			args = "#{output_folder} #{Integer(params[:cloud])} #{Integer(params[:one])} #{Integer(params[:two])} #{Integer(params[:color][:red])} #{Integer(params[:color][:blue])} #{Integer(params[:color][:green])}"
 			results = `java -jar #{Rails.root.join('lib', 'assets', 'color.jar').to_s} #{args}`
+			if !results.starts_with?("Word Not Found")
+				@files = Dir.glob(output_folder.to_s + '/*.png')		
+				#Push to cloud
+				AWS::S3::DEFAULT_HOST.replace "s3-eu-west-1.amazonaws.com"
+				AWS::S3::Base.establish_connection!(
+					:access_key_id	=>	Rails.configuration.access_key_id,
+					:secret_access_key => 	Rails.configuration.secret_access_key
+				)
+				@files.each_with_index do |file, i|
+					AWS::S3::S3Object.store("/#{storm.user_id}/#{storm.cloud_id}/#{file.split("/").last.to_s}", open(file), 'wordstorm.bucket', :access => :public_read_write)
+					if !AWS::S3::Service.response.success?
+						break;
+					end
+					File.delete(file)
+				end
+			end
 			redirect_to "/gallery/edit?stormedit=" + storm.cloud_id.to_s
 		else
 			redirect_to :all
 		end
    end
 
+   def share
+	if params.has_key?(:email) and params.has_key?(:from) and params.has_key?(:storm)
+		#UserMailer.share_storm(params[:email], "localhost:3000/gallery/"+params[:from].to_s+"/shared=true&stormid=" + params[:storm].to_s)
+		redirect_to "/gallery/" + params[:from].to_s + "?shared=true&stormid=" + params[:storm].to_s	 #Always redirects to the same storm, so value is same
+	end
+   end
 
    def image_asset(file, word, asset)
 	assetname = "/assets"
