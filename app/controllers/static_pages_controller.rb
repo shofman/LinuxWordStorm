@@ -164,7 +164,7 @@ end
 					dbFile.save
 					x += 1
 
-					#Remove file
+					#Remove file from local
 					File.delete(file)
 				end
 
@@ -178,6 +178,11 @@ end
 			else
 				flash[:notice] = "Error generating storm data"
 				redirect_to "/uploads"	
+			end
+			#Clean twitter files
+			input = Dir.glob(@input_folder)
+			input.each do |file|
+				File.delete(file)
 			end
 		else
 			flash[:notice] = "Error reading twitter data"
