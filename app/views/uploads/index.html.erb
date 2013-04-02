@@ -69,8 +69,13 @@
   </div>
 
   <div id="tabs-2">
-    <h2>Content heading 2</h2>
-    <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+	<h2>Generate Word Storm From Twitter</h2>
+	<%= form_tag({:controller => "static_pages", :action => "twitter"}, :id => "generate-twitter", :method => "post", :class => "nifty_form") do |f| %>
+		<label for="username">Twitter Username</label>
+		<%= text_field(:twitter, :username) %>
+		<br>
+		<span><%= submit_tag("Generate storm from Twitter username", :class => 'btn btn-medium btn-primary') %></span>
+	<% end %>    
   </div>
   
   <div id="tabs-3">
@@ -125,6 +130,16 @@
 <script>
 $(function() {
   $('#generate').click(function() {
+		//alert("This may take some time. Please be patient.");
+		$.ajaxSetup({async:false});
+		$('#formsubmit').submit();
+	
+  });
+});
+</script>
+<script>
+$(function() {
+  $('#generate-twitter').click(function() {
 		//alert("This may take some time. Please be patient.");
 		$.ajaxSetup({async:false});
 		$('#formsubmit').submit();

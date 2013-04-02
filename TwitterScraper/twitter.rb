@@ -74,10 +74,21 @@ for x in statuses
 	myHash = parseCreateYear(x.xpath("created_at"), x.xpath("text"), myHash)
 end
 
-puts myHash.keys
 for x in myHash.keys
+	puts x
+	count = 0
+	filetag = 2
 	my_local_file = open(x + ".txt", "w")
-	myHash[x].each {|text| my_local_file.write(text+" ")}
+	myHash[x].each do |text| 
+		my_local_file.write(text+" ")
+		count += 1
+		if count > 30
+			my_local_file = open(x + filetag.to_s + ".txt", "w")
+			filetag += 1
+			count = 0
+		end
+	end 
+	
 	#my_local_file.write()    
 	my_local_file.close
 end

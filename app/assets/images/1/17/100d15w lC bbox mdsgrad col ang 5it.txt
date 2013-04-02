@@ -1,0 +1,6 @@
+Time: 22392 ms (0 min 22 sec)
+word clouds, 6
+100d15w lC bbox mdsgrad col ang 5it
+width 320, height 240
+
+1.1422390835856378E-6, 112013.484, 803525.0, 915538.4843761423

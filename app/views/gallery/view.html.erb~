@@ -77,7 +77,7 @@
       width: 350,
       modal: true,
       buttons: {
-        "Create an account": function() {
+        "Share this storm": function() {
           var bValid = true;
 	  var EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
           bValid = bValid && checkLength( email, "email", 6, 80 );
@@ -108,6 +108,6 @@
 		<label for="email">Email</label>
 		<input type="text" name = "email" id="email" value = "" class = "text ui-widget-content ui-corner-all" />
 		<input type="hidden" name = "storm" id="storm" value = "<%= @storm.id %>" />
-		<input type="hidden" name = "from" id="from" value = "<%= @controller %>" />
+		<input type="hidden" name = "from" id="from" value = "<%= params[:action] %>" />
 	<% end %>
 </div>

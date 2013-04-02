@@ -32,6 +32,8 @@ gem 'aws-s3'
 gem 'ledermann-rails-settings', :require => 'rails-settings'
 gem 'bcrypt-ruby', :require => 'bcrypt'
 gem 'thin'
+gem 'sanitize'
+gem 'nokogiri'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

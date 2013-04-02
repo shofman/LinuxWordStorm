@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130318192716) do
+ActiveRecord::Schema.define(:version => 20130402001040) do
 
   create_table "images", :force => true do |t|
     t.string   "name"
@@ -63,6 +63,8 @@ ActiveRecord::Schema.define(:version => 20130318192716) do
     t.datetime "updated_at",    :null => false
     t.string   "file_location"
     t.integer  "size"
+    t.integer  "version"
+    t.integer  "algorithm"
   end
 
 end
