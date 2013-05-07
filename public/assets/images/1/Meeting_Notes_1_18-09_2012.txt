@@ -1,0 +1,23 @@
+﻿Supervisor Meeting 1
+
+Suggested reading / Authors:
+Maturana & Varela
+Stuart Kaufman
+Stephan Unolfi
+Paul Wazlavik
+
+Discussion:
+
+What to do to start: look at a simple experiment which shows some of the underlying properties. Maybe find a few more examples which could easily be implemented.
+
+General problem with a lot of the reading: As soon as you get into a matter really deep, it may become harder to see similarities in other fields which were 'obvious' when comparing the two (or more) fields from a more distant perspective. On a similar note, these similarities could arise due to overgerneralization. Even if they are not, they may not even be important, but just side effects.
+
+Examples of the wanted type of MAS: Crowd animation, ants pushing an object, prosthetics, swarm behaviour, robot control, robot interaction.
+
+
+Look up:
+
+More reading on MAS
+Suggested authors
+Lottka-Voltera equations
+Differential equations

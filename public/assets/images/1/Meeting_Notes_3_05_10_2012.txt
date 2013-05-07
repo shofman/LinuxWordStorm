@@ -1,0 +1,14 @@
+﻿Supervisor Meeting 3
+
+Fine example to show people are working on the topic
+Box pushing
+Traffic simulation
+Street lights
+Direct communication
+Write presentation
+Have started (7/10/12)
+Self organization:
+Symmetry & breaking it
+Instability as trigger
+Maintaining certain amount of instability to not fall into perfect equilibrium
+Stephano Nolfi: robot interaction

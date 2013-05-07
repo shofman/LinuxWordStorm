@@ -1,0 +1,34 @@
+﻿Meeting Notes 10/01/2013
+
+Purpose in proposal:
+Can begin with overview at pretty high level for the motivation and justification of the project
+Talk about the transition period where only a few cars are equipped.
+
+Need to balance coherency vs modularity of project. So things should work towards the same topic and be related, but ideally also not too dependent on each other, so that if one thing fails the whole project can still go on. (consider for workplan)
+
+State spaces:
+Can have a massive state space and then use clustering to find common state-action mappings
+
+General effect to consider is that multi-agent learning can be done for each individual agent and lead to different strategies. This may be argued for and against! Example: paying more for more aggressive AIs.
+
+Effect of different levels of realism of simulations: If the learned behaviour works for both a very abstracted and a more realistic simulation, this could be evidence that it may also work in an actual realistic scenario.
+
+(Internship: Can ask for job in Isreal at GM, or for satnav manufaturers)
+
+Implementation of controller on real cars:
+Heavily pre-trained with some mild adaptation of input parameters (e.g. slightly training how long the breaking time is where the car is used)
+Data-mining has been used to extract certain rule sets from trained tables, e.g. through clustering etc.
+Requires knowledge of what you're looking for though!
+May not be very feasible
+
+Base main task on one paper and extend it with additional interesting things or by picking at faults it makes or things it omits. (workplan)
+Be more specific in a few things than touch on many only very general/vague!
+Balanced and coherent rather than comprehensive
+
+Put computational needs in proposal!!!!!
+
+Good exploratory research needs to consider small examples which clearly show a certain feature, rather than large/complex/realistic ones (where applicable).
+Find most trivial representation of problem and solve that, then extrapolate if necessary.
+
+
+
