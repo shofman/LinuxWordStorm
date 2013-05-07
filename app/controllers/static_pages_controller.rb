@@ -119,7 +119,7 @@ end
 			Dir.mkdir(@output_folder) unless File.exists?(@output_folder)
 		
 			#This creates the path for the Wordstorm arguments to look
-			args = "#{@input_folder}/ #{@output_folder}/ 100 #{@user.settings.maxwords} #{convertTfIdf(@user.settings.tfidf)} #{@user.settings.color} \"#{convertAlgo(@user.settings.algo)}\" #{@user.settings.tolerance} #{@user.settings.iterations} \"#{@user.settings.font}\" \"#{convertCase(@user.settings.lcase)}\" #{@user.settings.scale} #{@user.settings.angle}"
+			args = "#{@input_folder}/ #{@output_folder}/ 100 #{@user.settings.maxwords} #{convertTfIdf(@user.settings.tfidf)} #{1} \"#{convertAlgo(@user.settings.algo)}\" #{@user.settings.tolerance} #{@user.settings.iterations} \"#{@user.settings.font}\" \"#{convertCase(@user.settings.lcase)}\" #{@user.settings.scale} #{@user.settings.angle}"
 
 			#Use the jar located at the path lib/assets/test2.jar with the constraits from args
 			results = `java -jar #{Rails.root.join('lib', 'assets', Rails.configuration.version.to_s, 'wordstorm.jar').to_s} #{args}`
@@ -182,7 +182,7 @@ end
 			#Clean twitter files
 			input = Dir.glob(@input_folder)
 			input.each do |file|
-				File.delete(file)
+			#	File.delete(file)
 			end
 		else
 			flash[:notice] = "Error reading twitter data"
