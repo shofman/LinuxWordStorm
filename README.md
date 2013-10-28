@@ -21,12 +21,13 @@ The app uses the following projects:
 * [Paperclip](https://github.com/thoughtbot/paperclip)
 * [twitter-bootstrap-rails](https://github.com/seyhunak/twitter-bootstrap-rails) 
 
-## Running the website
+### Running the website
 
     rake db:create
     rake db:migrate
     rails server
-	Open http:://localhost:3000
+Open http:://localhost:3000
 	
-## Running the wordstorm code
-	Run StormLauncher.main with no arguments for the default storm (need to specify path to folder with text for wordstorm within code). Else pass in the parameters for customizing storm.
+### Running the wordstorm code
+Run StormLauncher.main with no arguments for the default storm (need to specify path to folder with text for wordstorm within code).
+Else pass in the parameters for customizing storm.
