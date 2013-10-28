@@ -1,13 +1,11 @@
-# Upload files with jQuery File Upload and Paperclip
-
-This is an example app that uses the following gems to upload files for your Rails application:
+This application is designed to create wordstorms, based on Joaquim Castella's word storm code, within a web browser. 
+Using a jquery fileupload as a base, the user uploads text files to the server. The server then processes these files with Castella's code, to create wordstorms. 
+Following this, the user can manipulate the word storms, and create a number of different users to share their storms. Dissertation project at the University of Edinburgh.
+This app uses Rails 3.2.6.
 
 * [jquery-fileupload-rails](https://github.com/tors/jquery-fileupload-rails)
 * [Paperclip](https://github.com/thoughtbot/paperclip)
-
-This app also uses [twitter-bootstrap-rails](https://github.com/seyhunak/twitter-bootstrap-rails) but is not required.
-
-This app uses Rails 3.2.6.
+* [twitter-bootstrap-rails](https://github.com/seyhunak/twitter-bootstrap-rails) but is not required.
 
 ## Running the app
 
@@ -16,7 +14,3 @@ This app uses Rails 3.2.6.
     rails server
 
 Open http:://localhost:3000
-
-## License
-The Unlicense (i.e Public Domain)
-
