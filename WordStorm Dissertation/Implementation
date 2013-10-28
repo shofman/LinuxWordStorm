@@ -1,0 +1,63 @@
+Upload types are restricted to text files, as this is a constraint in Castella's code. 
+
+User Page
+A simple user homepage, where users can view/change their options for creating a storm. On this page, there are also two links to the upload page and to a gallery of the user's storms. These were included here because of their relationship to the user (database has_many) - their appearance solidifies the concept that the storm, settings and uploads all belong to the user. 
+
+Wordstorm State
+
+To achieve this, I used Java serialization to save the storm object as a byte file. There were three downsides to using this method. The first two relate to extensibility - . Had I known about this before proceeding, I would have attempted another method of introducing state to the storms. 
+The primary issue was that the storm object was not serializable - each component of an object needs to be serializable before the entire object can be (returning  java.io.notserializableexception otherwise). And since the code is based off the image library, processing, the imaging aspects could not be serialized. Instead, I refactored the code so that each accessible object (the WordCram object, the Word object, the EngineWord object, etc) was serializable. Next, I added interfaces*1 to replicate the code in the processing library - each interface replicates a particular aspect of the graphics (PVector class became MyPVector, PGraphics became PGraphics). Each of these contain only the necessary methods for replicating the storm's behavior properly. This allowed the storm object to be saved to file. 
+
+While the storm object could be saved successfully, information was lost during the process, by the design of the code. Once the main generation algorithm is finished, storms, and by extension clouds, are drawn by taking the current positions of the words and finding the bounding box around them. This box is used to scale the image size to the correct size. So by manipulating 
+
+Correspondingly, the information passed back for editing 
+
+
+Gallery Layout Page
+There are two different layout pages for viewing storms. Because the storm size can be variable, I limited both gallery pages to display only a single storm at a time. This improves the rendering time to view a single storm, at the cost of being able to quickly find a unique storm (as opposed to listing them all at once). Each of these pages sets a cookie to indicate page position to ensure that, if the user goes away, the progress through the pages is not lost. 
+
+The first is a gallery of the user created storms. This page allows the user to view a single storm, with options to page to the next in order of creation.  
+Both gallerys have checks that ensure that at least one storm is available for viewing before displaying. If a storm is not available, the user is redirected to the upload page, with a prompt stating the error .
+
+
+
+Each image in the gallery can be clicked to be displayed within a modal dialog, a larger, windowed version of itself **ADD EXAMPLE HERE**. I am using a modified version of the JQuery plugin LightBox2 by Lokesh Dhakar. These modifications were introduced by myself as a means of manipulating the image - clicking left and right will perform actions necessary for editing the storm (LightBox2 would not allow this befor). In doing this, users can view and save individual clouds, or, if they are editing the storm, perform alterations to the storm. 
+
+Edits Page
+The edits page allows the user (and only the user who the storm belongs to) to manipulate the storm. The user can reposition each of the clouds, using JQueryUI draggable as before. The user can also increase or decrease the size of the clouds as a whole using two buttons which update the size of the image on screen, while maintaining . On saving, the user is redirected back to their completed storm as the database is updated, so they can view their final product as it would appear to others. 
+
+Moving Individual Words
+
+Coloring Individual Words
+An important distinction should be made that, while the color function names its variables as hue, saturation and value, the values perform as one would expect with RGB values. I have maintained this naming convention to reflect the rest of the project, but my code within the function, and the code to pass the color information from the website to this file, treats the colors as numbers within an RGB space. 
+In the current implementation, some words can be coloured more successfully than others. I was unable to discover the root cause for this - the graphics settings might have been changed by unaccessible code within the processing library is the best guess I have. 
+
+
+Sharing Storms
+By including the user's email on log in, we can allow users to share their storms. By pressing the share function on either the user's gallery page or the universal gallery page (if logged in), the user is redirected to an email page where the user can send out an email. From here, the user can select an address to send to, and an email with a link to the storm page is sent to this address. This improves the ability to share the storms, while using concepts familiar to most users. **CITE INFOGRAPH HERE**3
+
+Javascript Useage
+
+JQuery and, by extension, Javascript are used extensively within the wordstorms website. Rather than allow users to access certain elements of the website and risk errors, the header partial contains a check for javascript that redirects users to the main page and ask them to reenable javascript before proceeding. Doing this ensures a consistent experience, and limits the potential errors.  
+
+Cookies Useage - NEVERMIND - SESSION IS COOKIE 
+ 
+To improve user experience when viewing the gallery of storms, a cookie is set to maintain the position of the cloud.
+
+Security - 
+As mentioned in the user section, the user information is stored with a salted hash as a security best practice. On January 8th, Rails issued a number of patches to prevent SQL injections*4. By updating my Rails version, the code has been safeguarded against this attack vector. However, the code should be structured as to avoid potential faults - therefore, each input form that the user can access is sanatized accordingly. This means that forms relating to numbers can only accept numbers between the expected values, and that textual information is analyzed to remove potential SQL injections. In particular, the case when Castella's code is called using Ruby's 'eval' equivalent, while passing user arguments to it. Each argument in the options needs to be verified before execution.  
+It should be worth noting that no verification goes into checking the files uploaded. I justify this under the assumption that Castella's code, during the tokenization process, will remove the majority of dangerous injection mechanisms. Additionally, during my research, I could not find any method of injecting information through a readFile, but this only provides a small guarantee.  
+
+Routing Information (?)*2
+
+Testing
+
+Different Website Useage
+The multifacted approach to the web has resulted in a number of unique browsers appearing. I have tested the performance and behavior of the website on each of the five major browsers - Internet Explorer, Firefox, Chrome, Safari, and Opera. **RESULTS**
+
+
+
+*1 - Make sure that you did actually use interfaces. 
+*2 - Determine if you want to include routing information within your project
+*3 - http://blog.getresponse.com/social-sharing-boosts-email-ctr-up-to-115.html	
+*4 - http://weblog.rubyonrails.org/2013/1/8/Rails-3-2-11-3-1-10-3-0-19-and-2-3-15-have-been-released/

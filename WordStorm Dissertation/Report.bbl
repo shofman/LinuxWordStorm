@@ -1,0 +1,148 @@
+\begin{thebibliography}{10}
+
+\bibitem{scaleRails}
+Can rails scale.
+\newblock http://canrailsscale.com/.
+
+\bibitem{Flickr}
+Flickr.
+\newblock http://www.flickr.com/photos/tags/.
+
+\bibitem{Railsstart}
+Getting started with rails.
+\newblock http://guides.rubyonrails.org/getting\_started.html.
+
+\bibitem{LightBoxLink}
+Lightbox2.
+\newblock http://lokeshdhakar.com/projects/lightbox2/.
+
+\bibitem{Railsquote}
+Smart people saying nice things.
+\newblock http://rubyonrails.org/quotes.
+
+\bibitem{StoringDB}
+Storing images in db.
+\newblock
+  http://stackoverflow.com/questions/3748/storing-images-in-db-yea-or-nay.
+
+\bibitem{web2}
+What is web 2.0? ideas, technologies and implications for education.
+
+\bibitem{Otherstorm}
+Wordstorm.
+\newblock http://www.lonij.net/wordstorm/wordstorm.php.
+
+\bibitem{Infograph}
+Hanna Andrzejewska.
+\newblock Social sharing boosts email ctr up to 115\%.
+\newblock
+  http://blog.getresponse.com/social-sharing-boosts-email-ctr-up-to-115.html.
+
+\bibitem{Collocate}
+D.~Beavan.
+\newblock Glimpses through the clouds: collocates in a new light.
+\newblock {\em Digital Humanities 2008}, 2008.
+
+\bibitem{Jquery}
+BlueImp.
+\newblock https://github.com/blueimp/jQuery-File-Upload.
+
+\bibitem{wordstormonline}
+J.~Castella and C.~Sutton.
+\newblock Word storms: Multiples of word clouds for visual comparison of
+  documents.
+\newblock http://groups.inf.ed.ac.uk/cup/wordstorm/wordstorm.html, 2013.
+
+\bibitem{Wordstorms}
+Joaquim Castella.
+\newblock Word storms: Multiples of word clouds for document corpora
+  visualization.
+\newblock 2012.
+
+\bibitem{DBLP}
+Quim Castella and Charles~A. Sutton.
+\newblock Word storms: Multiples of word clouds for visual comparison of
+  documents.
+\newblock {\em CoRR}, abs/1301.0503, 2013.
+
+\bibitem{ContextPreserve}
+Weiwei Cui, Furu~Wei Yingcai~Wu, Shixia~Liu, and Huamin~Qu Michelle X.~Zhou.
+\newblock {\em IEEE Computer Society}, 2010.
+
+\bibitem{deleuze1992tausend}
+G.~Deleuze and F.~Guattari.
+\newblock {\em Tausend Plateaus: 2}.
+\newblock Kapitalismus und Schizophrenie / Gilles Deleuze; F{\'e}lix Guattari.
+  Merve Verlag GmbH, 1992.
+
+\bibitem{dix2004human}
+A.~Dix.
+\newblock {\em Human Computer Interaction}.
+\newblock Pearson/Prentice-Hall, 2004.
+
+\bibitem{algorithm}
+Jonathan Feinberg.
+\newblock How to design a wordle algorithm.
+\newblock
+  http://stackoverflow.com/questions/342687/algorithm-to-implement-a-word-clou%
+d-like-wordle.
+
+\bibitem{Heer}
+Jeffrey Heer, Michael Bostock, and Vadim Ogievetsky.
+\newblock A tour through the visualization zoo.
+\newblock {\em Commun. ACM}, 53(6):59--67, June 2010.
+
+\bibitem{Lecture1}
+Taku Komura.
+\newblock Lecture 1, introduction.
+
+\bibitem{ledermann}
+Georg Ledermann.
+\newblock https://github.com/ledermann/rails-settings.
+
+\bibitem{dataprotect}
+Information~Commissioner's Office.
+\newblock Data protection act.
+\newblock http://ico.org.uk/for\_organisations/data\_protection.
+
+\bibitem{oreilly}
+Tim O'Reilly.
+\newblock What is web 2.0.
+\newblock http://oreilly.com/web2/archive/what-is-web-20.html, 2005.
+
+\bibitem{cookie}
+DATA PROTECTION~WORKING PARTY.
+\newblock Opinion 04/2012 on cookie consent exemption.
+\newblock
+  http://ec.europa.eu/justice/data-protection/article-29/documentation/opinion%
+-recommendation/files/2012/wp194\_en.pdf, 2012.
+
+\bibitem{OWASP}
+Open Web Application~Security Project.
+\newblock Owasp top ten.
+\newblock
+  http://owasptop10.googlecode.com/files/OWASP\%20Top\%2010\%20-\%202013\%20-%
+\%20RC1.pdf.
+
+\bibitem{RailsSec}
+Rails.
+\newblock http://guides.rubyonrails.org/security.html.
+
+\bibitem{Blob}
+Jim~Gray Russell~Sears, Catharine van~Ingen.
+\newblock To blob or not to blob: Large object storage in a database or a
+  filesystem?
+\newblock 2006.
+
+\bibitem{Railsscale}
+Michael Slater.
+\newblock Can rails scale? absolutely!
+\newblock
+  http://www.buildingwebapps.com/articles/6419-can-rails-scale-absolutely.
+
+\bibitem{sqlite}
+SQLite3.
+\newblock Appropriate uses for sqlite.
+\newblock http://www.sqlite.org/whentouse.html.
+
+\end{thebibliography}
